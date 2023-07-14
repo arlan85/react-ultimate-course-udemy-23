@@ -26,10 +26,33 @@ function Header() {
 function Menu() {
   return <main className='menu'>
     <h2>Our Menu</h2>
-    <Pizza />
-    <Pizza />
-    <Pizza />
+    <Pizza 
+    name="Focaccia" 
+    ingredients="Bread, olive oil, rosemary"
+    photoName="pizzas/focaccia.jpg" 
+    price={15}
+    />
+     <Pizza 
+    name="Pizza Funghi" 
+    ingredients="Tomato, mozarella, mushrooms, and onion"
+    price={10}
+    photoName="pizzas/funghi.jpg" 
+    />
   </main>
+}
+
+
+function Pizza(props) {
+  return (
+    <div className="pizza">
+      <img src={props.photoName} alt={props.name} />
+      <div>
+      <h3>{props.name}</h3>
+      <p>{props.ingredients}</p>
+      <span>{props.price +3}</span>
+      </div>
+    </div>
+  );
 }
 
 const Footer = () => {
@@ -48,15 +71,6 @@ const Footer = () => {
   </footer>
 }
 
-function Pizza() {
-  return (
-    <>
-      <img src='pizzas/focaccia.jpg' alt="pizza" />
-      <h3>Focaccia</h3>
-      <p>Bread with italian olive oil and rosemary</p>
-    </>
-  );
-}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<React.StrictMode>< App /></React.StrictMode>);

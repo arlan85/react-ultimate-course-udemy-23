@@ -64,7 +64,7 @@ function Menu() {
 
 
 function Pizza({ pizzaData }) {
-  if(pizzaData.soldOut) return null;
+  if (pizzaData.soldOut) return null;
   return (
     <li className="pizza">
       <img src={pizzaData.photoName} alt={pizzaData.name} />
@@ -93,19 +93,9 @@ const Footer = () => {
 
   return <footer className='footer'>
     {/* <span>{new Date().toLocaleString()} </span> */}
-    {
-
-      <div className='order'>
-        {isOpen ? (
-          <>
-            <p>We're open until {closeHour}:00. Come visit us or order online! </p>
-            <button className="btn">Order</button>
-          </>
-        ) : (<p>We're happy to welcome you between {openHour}:00 and  {closeHour}:00.</p>)
-        }
-      </div>
-
-
+    {isOpen ? (
+      <Order closeHour={closeHour} />
+    ) : (<p>We're happy to welcome you between {openHour}:00 and  {closeHour}:00.</p>)
     }
     {/* <p>{new Date().toLocaleString()}  We're currently open</p> */}
     <br />
@@ -113,6 +103,13 @@ const Footer = () => {
   </footer>
 }
 
+function Order({ closeHour }) {
+  return (
+    <div className='order'>
+      <p>We're open until {closeHour}:00. Come visit us or order online! </p>
+      <button className="btn">Order</button>
+    </div>);
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<React.StrictMode>< App /></React.StrictMode>);

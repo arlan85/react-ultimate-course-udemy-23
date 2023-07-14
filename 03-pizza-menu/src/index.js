@@ -40,7 +40,7 @@ function Menu() {
           })
         }
       </ul>
-    ): (
+    ) : (
       <p>We're still working on our menu. Please com back later :)</p>
     )}
     {
@@ -64,6 +64,7 @@ function Menu() {
 
 
 function Pizza({ pizzaData }) {
+  if(pizzaData.soldOut) return null;
   return (
     <li className="pizza">
       <img src={pizzaData.photoName} alt={pizzaData.name} />
@@ -85,6 +86,10 @@ const Footer = () => {
   // openHour <= hour && hour <= closeHour 
   // ? alert("We're currently open") 
   // : alert("We're currently CLOSED");
+
+  // if (!isOpen) {
+  //   return (<p>We're happy to welcome you between {openHour}:00 and  {closeHour}:00.</p>)
+  // }
 
   return <footer className='footer'>
     {/* <span>{new Date().toLocaleString()} </span> */}

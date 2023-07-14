@@ -1,8 +1,56 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
 
 import "./styles.css";
+
+const emogis = [
+  {
+    emogi: "👶",
+    level: "beginner",
+  },
+  {
+    emogi: "👍",
+    level: "intermediate",
+  },
+  {
+    emogi: "💪",
+    level: "advanced",
+  },
+];
+
+const skills = [
+  {
+    skill: "HTML+CSS",
+    level: "advanced",
+    color: "#2662EA",
+  },
+  {
+    skill: "JavaScript",
+    level: "advanced",
+    color: "#EFD81D",
+  },
+  {
+    skill: "Web Design",
+    level: "advanced",
+    color: "#C3DCAF",
+  },
+  {
+    skill: "Git and GitHub",
+    level: "intermediate",
+    color: "#E84F33",
+  },
+  {
+    skill: "React",
+    level: "advanced",
+    color: "#60DAFB",
+  },
+  {
+    skill: "Svelte",
+    level: "beginner",
+    color: "#FF3B00",
+  },
+];
 
 function App() {
   return (
@@ -25,9 +73,8 @@ function Avatar() {
 
 function Intro() {
   const props = {
-    heading: "Test Text",
-    bio:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
+    heading: "Arlan Galvez Alonso",
+    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
   };
   return (
     <div>
@@ -38,47 +85,31 @@ function Intro() {
 }
 
 function SkillList() {
-  const array = [
-    {
-      color: "blue",
-      skill: "Developer",
-      emogi: "💪"
-    },
-    {
-      color: "orange",
-      skill: "React",
-      emogi: "💪"
-    },
-    {
-      color: "yellow",
-      skill: "HTML+CSS",
-      emogi: "💪"
-    },
-    {
-      color: "green",
-      skill: "JavaScript",
-      emogi: "👶"
-    }
-  ];
   return (
     <div className="skill-list">
-      {array.map((item, index) => (
-        <Skill key={index} {...item} />
+      {skills.map((item, index) => (
+        <Skill key={index} options={item} />
       ))}
     </div>
   );
 }
 
-function Skill(props) {
+function Skill({ options }) {
+  const { color, skill, level } = options;
   return (
-    <div className="skill" style={{ backgroundColor: props.color }}>
-      <span>{props.skill}</span>
-      <span>{props.emogi}</span>
+    <div className="skill" style={{ backgroundColor: color }}>
+      <span>{skill}</span>
+      {/* <span>
+      {props.level === "beginner"  && "👶"}
+      {props.level === "intermediate" && "👍"}
+      {props.level === "advanced"  && "💪"}
+      </span> */}
+      <span>{emogis.find((item) => item.level === level).emogi}</span>
     </div>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <App />
@@ -89,4 +120,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-

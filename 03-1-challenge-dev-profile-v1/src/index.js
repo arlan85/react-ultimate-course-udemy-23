@@ -42,17 +42,17 @@ function SkillList() {
     {
       color: "blue",
       skill: "Developer",
-      emogi: "👶"
+      emogi: "💪"
     },
     {
       color: "orange",
       skill: "React",
-      emogi: "👶"
+      emogi: "💪"
     },
     {
       color: "yellow",
       skill: "HTML+CSS",
-      emogi: "👶"
+      emogi: "💪"
     },
     {
       color: "green",

@@ -65,14 +65,17 @@ function Menu() {
 }
 
 function Pizza({ pizzaData }) {
-  if (pizzaData.soldOut) return null;
+  // if (pizzaData.soldOut) return null;
   return (
-    <li className="pizza">
+    <li className={`pizza ${pizzaData.soldOut ? 'sold-out' : ''}`}>
       <img src={pizzaData.photoName} alt={pizzaData.name} />
       <div>
         <h3>{pizzaData.name}</h3>
         <p>{pizzaData.ingredients}</p>
-        <span>{pizzaData.price + 3}</span>
+        {/* {pizzaData.soldOut ? <span>SOLD OUT</span> : <span>{pizzaData.price}</span> */
+        }
+
+        <span>{pizzaData.soldOut ? "SOLD OUT" : pizzaData.price}</span>
       </div>
     </li>
   );

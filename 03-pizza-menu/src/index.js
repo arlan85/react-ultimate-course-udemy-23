@@ -17,9 +17,9 @@ function Header() {
   // const styles = { color: 'red', fontSize: '48px', textTransform: 'uppercase'}
   const styles = {}
   return (
-  <header className="header">
-    <h1 style={styles}>Fast React Pizza Co.</h1>
-  </header>
+    <header className="header">
+      <h1 style={styles}>Fast React Pizza Co.</h1>
+    </header>
   )
 }
 
@@ -28,45 +28,42 @@ function Menu() {
     <h2>Our Menu</h2>
     <ul className='pizzas'>
       {
-      data.map ( (pizza, index) => {
-        return <Pizza 
-        key={index}
-        name={pizza.name}
-        ingredients={pizza.ingredients}
-        price={pizza.price}
-        photoName={pizza.photoName}
-        />
+        data.map((pizza, index) => {
+          return <Pizza
+            key={index}
+            pizzaData={pizza}
+          />
         })
       }
     </ul>
     {
-    /*
-      <Pizza 
-      name="Focaccia" 
-      ingredients="Bread, olive oil, rosemary"
-      photoName="pizzas/focaccia.jpg" 
-      price={15}
-      />
-      <Pizza 
-      name="Pizza Funghi" 
-      ingredients="Tomato, mozarella, mushrooms, and onion"
-      price={10}
-      photoName="pizzas/funghi.jpg" 
-      />
-    */
+      /*
+        <Pizza 
+        name="Focaccia" 
+        ingredients="Bread, olive oil, rosemary"
+        photoName="pizzas/focaccia.jpg" 
+        price={15}
+        />
+        <Pizza 
+        name="Pizza Funghi" 
+        ingredients="Tomato, mozarella, mushrooms, and onion"
+        price={10}
+        photoName="pizzas/funghi.jpg" 
+        />
+      */
     }
   </main>
 }
 
 
-function Pizza(props) {
+function Pizza({ pizzaData }) {
   return (
     <li className="pizza">
-      <img src={props.photoName} alt={props.name} />
+      <img src={pizzaData.photoName} alt={pizzaData.name} />
       <div>
-      <h3>{props.name}</h3>
-      <p>{props.ingredients}</p>
-      <span>{props.price +3}</span>
+        <h3>{pizzaData.name}</h3>
+        <p>{pizzaData.ingredients}</p>
+        <span>{pizzaData.price + 3}</span>
       </div>
     </li>
   );
@@ -76,7 +73,7 @@ const Footer = () => {
   const hour = new Date().getHours();
   const openHour = 12;
   const closeHour = 22;
-  const isOpen =  openHour <= hour && hour <= closeHour;
+  const isOpen = openHour <= hour && hour <= closeHour;
   console.log(isOpen)
   // openHour <= hour && hour <= closeHour 
   // ? alert("We're currently open") 

@@ -1,4 +1,4 @@
-export const pizzaData = [
+ const pizzaData = [
   {
     name: "Focaccia",
     ingredients: "Bread with italian olive oil and rosemary",
@@ -42,3 +42,5 @@ export const pizzaData = [
     soldOut: false,
   },
 ];
+
+export default pizzaData;

@@ -94,7 +94,7 @@ const Footer = () => {
   return <footer className='footer'>
     {/* <span>{new Date().toLocaleString()} </span> */}
     {isOpen ? (
-      <Order closeHour={closeHour} />
+      <Order closeHour={closeHour} openHour={openHour}/>
     ) : (<p>We're happy to welcome you between {openHour}:00 and  {closeHour}:00.</p>)
     }
     {/* <p>{new Date().toLocaleString()}  We're currently open</p> */}
@@ -103,10 +103,10 @@ const Footer = () => {
   </footer>
 }
 
-function Order({ closeHour }) {
+function Order({ closeHour, openHour }) {
   return (
     <div className='order'>
-      <p>We're open until {closeHour}:00. Come visit us or order online! </p>
+      <p>We're open from {openHour}:00 until {closeHour}:00. Come visit us or order online! </p>
       <button className="btn">Order</button>
     </div>);
 }

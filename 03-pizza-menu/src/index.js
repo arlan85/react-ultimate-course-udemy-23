@@ -25,13 +25,13 @@ function Header() {
 
 function Menu() {
   const pizzas = pizzaData;
-
+  const key = "pizza";
   return (
     <main className="menu">
       <h2>Our Menu</h2>
 
       {pizzas.length > 0 ? (
-        <>
+        <React.Fragment key={key}>
           <p>
             Authentic Italian cuisine. 6 creative dishes to choose from. All
             from our stone oven, all organic, all delicious.
@@ -42,7 +42,7 @@ function Menu() {
               return <Pizza key={index} pizzaData={pizza} />;
             })}
           </ul>
-        </>
+        </React.Fragment>
       ) : (
         <p>We're still working on our menu. Please com back later :)</p>
       )}

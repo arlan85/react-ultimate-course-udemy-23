@@ -28,18 +28,20 @@ function Menu() {
 
   return <main className='menu'>
     <h2>Our Menu</h2>
-    
-    {pizzas.length > 0 && (
+
+    {pizzas.length > 0 ? (
       <ul className='pizzas'>
-      {
-        pizzaData.map((pizza, index) => {
-          return <Pizza
-            key={index}
-            pizzaData={pizza}
-          />
-        })
-      }
-    </ul>
+        {
+          pizzaData.map((pizza, index) => {
+            return <Pizza
+              key={index}
+              pizzaData={pizza}
+            />
+          })
+        }
+      </ul>
+    ): (
+      <p>We're still working on our menu. Please com back later :)</p>
     )}
     {
       /*
@@ -78,7 +80,7 @@ const Footer = () => {
   const hour = new Date().getHours();
   const openHour = 12;
   const closeHour = 22;
-  const isOpen = openHour <= hour && hour <= closeHour;
+  const isOpen = openHour <= hour && hour < closeHour;
   console.log(isOpen)
   // openHour <= hour && hour <= closeHour 
   // ? alert("We're currently open") 
@@ -87,15 +89,22 @@ const Footer = () => {
   return <footer className='footer'>
     {/* <span>{new Date().toLocaleString()} </span> */}
     {
-      isOpen && (
+
       <div className='order'>
-        <p>We're open until {closeHour}:00. Come visit us or order online!  </p>
-        <button className="btn">Order</button>
+        {isOpen ? (
+          <>
+            <p>We're open until {closeHour}:00. Come visit us or order online! </p>
+            <button className="btn">Order</button>
+          </>
+        ) : (<p>We're happy to welcome you between {openHour}:00 and  {closeHour}:00.</p>)
+        }
       </div>
-    )}
+
+
+    }
     {/* <p>{new Date().toLocaleString()}  We're currently open</p> */}
-    <br/>
-    <p style={{textAlign: 'center'}}>©{new Date().getFullYear()} All rights reserved</p>
+    <br />
+    <p style={{ textAlign: 'center' }}>©{new Date().getFullYear()} All rights reserved</p>
   </footer>
 }
 

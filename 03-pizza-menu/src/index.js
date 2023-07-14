@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import data from './data/data.js';
 import './index.css';
+import pizzaData from './data/data.js';
 
 function App() {
   return (
@@ -24,11 +24,15 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+
   return <main className='menu'>
     <h2>Our Menu</h2>
-    <ul className='pizzas'>
+    
+    {pizzas.length > 0 && (
+      <ul className='pizzas'>
       {
-        data.map((pizza, index) => {
+        pizzaData.map((pizza, index) => {
           return <Pizza
             key={index}
             pizzaData={pizza}
@@ -36,6 +40,7 @@ function Menu() {
         })
       }
     </ul>
+    )}
     {
       /*
         <Pizza 
@@ -80,8 +85,17 @@ const Footer = () => {
   // : alert("We're currently CLOSED");
 
   return <footer className='footer'>
-    <p>{new Date().toLocaleString()}  We're currently open</p>
-    <span>©{new Date().getFullYear()} All rights reserved</span>
+    {/* <span>{new Date().toLocaleString()} </span> */}
+    {
+      isOpen && (
+      <div className='order'>
+        <p>We're open until {closeHour}:00. Come visit us or order online!  </p>
+        <button className="btn">Order</button>
+      </div>
+    )}
+    {/* <p>{new Date().toLocaleString()}  We're currently open</p> */}
+    <br/>
+    <p style={{textAlign: 'center'}}>©{new Date().getFullYear()} All rights reserved</p>
   </footer>
 }
 

@@ -12,17 +12,17 @@ function App() {
   const [isOpen, setIsOpen] = useState(true);
 
   function handlePrevious() {
-    currentStep > 1 && setCurrentStep(currentStep-1)
+    currentStep > 1 && setCurrentStep((s)=>s-1)
   }
 
   function handleNext() {
-    currentStep < messages.length &&  setCurrentStep(currentStep+1)
+    currentStep < messages.length &&  setCurrentStep((s)=>s+ 1)
     // setTest({name: 'Fred'})
   }
 
   return (
     <>
-      <button className="close" onClick={() => setIsOpen(!isOpen)}>&times;</button>
+      <button className="close" onClick={() => setIsOpen((is)=>!is )}>&times;</button>
       {isOpen &&
     <div className="steps">
       <div className="numbers">

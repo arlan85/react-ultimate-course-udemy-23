@@ -8,6 +8,8 @@ const messages = [
 function App() {
   // const currentStep = 1;
   const [currentStep, setCurrentStep] = useState(1);
+  // const [test, setTest] = useState({name: 'Jonas'});
+  const [isOpen, setIsOpen] = useState(false);
 
   function handlePrevious() {
     currentStep > 1 && setCurrentStep(currentStep-1)
@@ -15,19 +17,25 @@ function App() {
 
   function handleNext() {
     currentStep < messages.length &&  setCurrentStep(currentStep+1)
+    // setTest({name: 'Fred'})
   }
 
   return (
+    <>
+      <button className="close" onClick={() => setIsOpen(!isOpen)}>&times;</button>
+      {isOpen &&
     <div className="steps">
       <div className="numbers">
+
         {
+          
           messages.map((_message, index) => ( 
             <div className={`${currentStep>=index+1 ? 'active' : ''}`} index={index}>{index+1}</div>
         
           ))
         }
       </div>
-      <p className="message">Step {currentStep}: {messages[currentStep - 1]}</p>
+      <p className="message">Step {currentStep}: {messages[currentStep - 1]} {/*test.name*/}</p>
       <div className="buttons">
         <button style= {{backgroundColor: '#7950F2', color: '#fff'}} 
         onClick={handlePrevious}
@@ -38,6 +46,8 @@ function App() {
         >Next</button>
       </div>
     </div>
+    }
+    </>
   );
 }
 

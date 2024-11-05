@@ -1,3 +1,10 @@
+const initialItems = [
+  {id: 1, description: "Passports", quantity: 2, packed: false},
+  {id:2, description: "Socks", quantity: 12, packed: false},
+  {id:3, description: "Charger", quantity: 1, packed: false},
+  {id:4, description: "Water", quantity: 1, packed: true}
+]
+const numItems = Array.from({length:20}, (_, i) => i+1)
 export default function App() {
   return (
     <div className="app">
@@ -15,32 +22,36 @@ function Logo(){
   )
 }
 function Form(){
+  function handleSubmit(e){
+    e.preventDefault()
+    console.log(e)
+  }
   return (
-    <>
-    <div className='add-form'>
+      <form className='add-form' onSubmit={handleSubmit} >
       <h3>What do you need for your 😍 trip?</h3> 
-      <div className="form">
-      <form>
+        <select>
+          {numItems.map(item => <option key={item} value={item}>{item}</option>)}
+        </select>
         <input type="text" placeholder="Enter your item" />
         <button type="submit">Add</button>
       </form>
-    </div>
-    </div>
-
-    </>
   )
 }
 
 function PackingList(){
   return (
-    <div className="list">
-      <p>The list</p>
-      {/* <ul>
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <li>Item 3</li>
-      </ul> */}
-    </div>
+      <ul className="list">
+        { initialItems.map(item => <Item item={item} key={item.id}/>) }
+      </ul>
+  )
+}
+
+function Item({item}){
+  return (
+    <li>
+      <span style={item.packed ? {textDecoration: 'line-through'} : {}}>{item.quantity} {item.description}</span>
+        <button>❌</button>
+    </li>
   )
 }
 

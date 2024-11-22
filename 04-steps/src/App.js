@@ -9,6 +9,9 @@ function App() {
     <div>
       <Steps />
       {/* <Steps /> */}
+      <StepMessage step={1}>
+        <p>Pass it content 😒</p>
+      </StepMessage>
     </div>
   );
 }
@@ -45,9 +48,17 @@ function Steps() {
               </div>
             ))}
           </div>
-          <p className="message">
-            Step {currentStep}: {messages[currentStep - 1].message}{" "}
-          </p>
+
+          <StepMessage step={currentStep}>
+            <p> {messages[currentStep - 1].message}{" "}</p>
+            <div className="buttons">
+              <Button className="button"
+              onClick={()=> alert(`learn how to ${messages[currentStep - 1].message}`)}>
+                👍 learn how
+              </Button>
+              </div>
+          </StepMessage>
+        
           <div className="buttons">
             <Button onClick={handlePrevious} textColor={"#fff"} bgColor={ "#7950F2"}><span>👈</span>Previous</Button>
             <Button onClick={handleNext} textColor={"#fff"} bgColor={ "#7950F2"}>Next<span>👉</span></Button>
@@ -57,12 +68,21 @@ function Steps() {
     </div>
   );
 
-  function Button({textColor, bgColor, onClick, children}){
-    return <button
-    style={{ backgroundColor:bgColor, color: textColor }}
-    onClick={onClick}
-  >{children}</button>
-  }
+
+}
+
+function Button({textColor, bgColor, onClick, children}){
+  return <button
+  style={{ backgroundColor:bgColor, color: textColor }}
+  onClick={onClick}
+>{children}</button>
+}
+
+function StepMessage({step, children}){
+ return  <div className="message">
+  <h3> Step {step}</h3> 
+  {children}
+  </div>
 }
 
 export default App;

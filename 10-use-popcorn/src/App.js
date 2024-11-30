@@ -89,19 +89,7 @@ function NumResults({ movies }) {
   );
 }
 
-// function Box({ children }) {
-//   const [isOpen, setIsOpen] = useState(true);
-
-//   return (
-//     <div className="box">
-//       <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
-//         {isOpen ? "–" : "+"}
-//       </button>
-//       {isOpen && children}
-//     </div>
-//   );
-// }
-function Box({ element }) {
+function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -109,10 +97,24 @@ function Box({ element }) {
       <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
         {isOpen ? "–" : "+"}
       </button>
-      {isOpen && element}
+      {isOpen && children}
     </div>
   );
 }
+
+// 114 passing elements as props alternative to children
+// function Box({ element }) {
+//   const [isOpen, setIsOpen] = useState(true);
+
+//   return (
+//     <div className="box">
+//       <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+//         {isOpen ? "–" : "+"}
+//       </button>
+//       {isOpen && element}
+//     </div>
+//   );
+// }
 
 function MovieList({ movies }) {
   return (
@@ -218,21 +220,22 @@ export default function App() {
       </NavBar>
 
       <Main>
+        {/* // 114
         <Box element={<MovieList movies={movies}></MovieList>}/>
         <Box element={
           <>
             <WatchedSummary watched={watched} />
             <WatchedMovieList watched={watched} />
           </>
-        }/>
-        {/* <Box>
+        }/> */}
+        <Box>
           <MovieList movies={movies}></MovieList>
         </Box>
 
         <Box>
           <WatchedSummary watched={watched} />
           <WatchedMovieList watched={watched} />
-        </Box> */}
+        </Box>
       </Main>
     </>
   );

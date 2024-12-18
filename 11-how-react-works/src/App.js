@@ -26,6 +26,9 @@ export default function App() {
   );
 }
 
+console.log(<DifferentContent test={23}/>)
+console.log(DifferentContent())
+
 function Tabbed({ content }) {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -43,6 +46,10 @@ function Tabbed({ content }) {
       ) : (
         <DifferentContent />
       )}
+      {
+        // calling the component directly we canot see the component instance, jsut the result of the instantiation
+        // TabContent({item: content.at(activeTab)})
+      }
     </div>
   );
 }

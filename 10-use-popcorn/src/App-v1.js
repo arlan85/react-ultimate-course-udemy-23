@@ -47,10 +47,6 @@ const tempWatchedData = [
   },
 ];
 
-const KEY = '710b0dfa'
-
-
-
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
@@ -213,16 +209,8 @@ function Main({ children }) {
 }
 
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
-
-fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-  .then(res => res.json()
-  // .then(data=>setMovies(data.Search)  // this is not allowed in render logic, infinite loop update state, re-render component
-  .then(data=>console.log (data.Search))  
-)
-
-// setWatched([]) // this generates an error too , because generates a loop
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>

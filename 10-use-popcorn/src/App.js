@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const tempMovieData = [
   {
@@ -216,11 +216,12 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
 
-fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-  .then(res => res.json()
-  // .then(data=>setMovies(data.Search)  // this is not allowed in render logic, infinite loop update state, re-render component
-  .then(data=>console.log (data.Search))  
-)
+  useEffect(function() {
+    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
+    .then(res => res.json())
+    .then(data=>setMovies(data.Search)  // this is not allowed in render logic, infinite loop update state, re-render component
+  )},[])
+
 
 // setWatched([]) // this generates an error too , because generates a loop
 

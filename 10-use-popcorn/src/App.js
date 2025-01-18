@@ -72,6 +72,7 @@ function Search({ query, setQuery }) {
     />
   );
 }
+
 function Logo() {
   return (
     <div className="logo">
@@ -116,19 +117,19 @@ function Box({ children }) {
 //   );
 // }
 
-function MovieList({ movies }) {
+function MovieList({ movies, onSelectMovie, onCloseMovie }) {
   return (
-    <ul className="list">
+    <ul className="list list-movies">
       {movies?.map((movie) => (
-        <Movie key={movie.imdbID} movie={movie}></Movie>
+        <Movie key={movie.imdbID} movie={movie} onSelectMovie={onSelectMovie} onCloseMovie={onCloseMovie}></Movie>
       ))}
     </ul>
   );
 }
 
-function Movie({ movie }) {
+function Movie({ movie, onSelectMovie }) {
   return (
-    <li>
+    <li onClick={()=>onSelectMovie(movie.imdbID)}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -219,6 +220,11 @@ function ErrorMessage({ message }) {
   );
 }
 
+function MovieDetails({ selectedId, onCloseMovie }) {
+  return <div className="details">
+    <button className="btn-back" onClick={onCloseMovie}>&larr;</button>{selectedId}</div>;
+}
+
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
@@ -226,6 +232,7 @@ export default function App() {
   const [error, setError] = useState("");
   const tempQuery = "interstellar";
   const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState("tt0277031");
 
   // useEffect(function(){
   //   console.log('After initial render')
@@ -238,6 +245,14 @@ export default function App() {
   // useEffect(function(){
   //   console.log('D')
   // },[query] )
+
+  function handleSelectedMovie(id) {
+    setSelectedId(selectedId=> id === selectedId? null: id);
+  }
+  function handleCloseMovie(){
+    setSelectedId(null);
+ 
+  }
 
   useEffect(
     function () {
@@ -258,7 +273,7 @@ export default function App() {
             throw new Error("Movie not found");
           }
           setMovies(data.Search); // this is not allowed in render logic, infinite loop update state, re-render component
-          // console.log(data.Search)
+          console.log(data.Search);
         } catch (error) {
           setError(error.message);
           console.error(error.message);
@@ -266,7 +281,7 @@ export default function App() {
           setIsLoading(false);
         }
       }
-      if (query.length < 2) {
+      if (query.length < 3) {
         setMovies([]);
         setError("");
         return;
@@ -299,13 +314,19 @@ export default function App() {
           {/* the next coditionals are mutually eclusive, that's why you can use it in this kinda way, 
             they will not make structure collitions*/}
           {isLoading && <Loader></Loader>}
-          {!isLoading && !error && <MovieList movies={movies}></MovieList>}
+          {!isLoading && !error && <MovieList movies={movies} onSelectMovie={handleSelectedMovie} ></MovieList>}
           {error && <ErrorMessage message={error}></ErrorMessage>}
         </Box>
 
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
+          {selectedId ? (
+            <MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovie}></MovieDetails>
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>

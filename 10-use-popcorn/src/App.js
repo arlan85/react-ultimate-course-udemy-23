@@ -47,9 +47,7 @@ const tempWatchedData = [
   },
 ];
 
-const KEY = '710b0dfa'
-
-
+const KEY = "710b0dfa";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -63,9 +61,7 @@ function NavBar({ children }) {
   );
 }
 
-function Search() {
-  const [query, setQuery] = useState("");
-
+function Search({ query, setQuery }) {
   return (
     <input
       className="search"
@@ -212,55 +208,80 @@ function Main({ children }) {
   return <main className="main">{children}</main>;
 }
 
-function Loader(){
-  return <p className="loader">Loading...</p>
+function Loader() {
+  return <p className="loader">Loading...</p>;
 }
-function ErrorMessage({message}){
-  return <p className="error">
-    <span>⛔️</span> {message}
-  </p>
+function ErrorMessage({ message }) {
+  return (
+    <p className="error">
+      <span>⛔️</span> {message}
+    </p>
+  );
 }
 
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const query  = 'interstellar'
+  const [error, setError] = useState("");
+  const tempQuery = "interstellar";
+  const [query, setQuery] = useState("");
 
-  useEffect(function () {
-    async function fetchMovies() {
-    try {
-        setIsLoading(true)
-      const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`)
-  
-      if (!res.ok) {
-        throw new Error('Something went wrong with fetching movies')
+  // useEffect(function(){
+  //   console.log('After initial render')
+  // },[])
+
+  // useEffect(function(){
+  //   console.log('After every render')
+  // },)
+
+  // useEffect(function(){
+  //   console.log('D')
+  // },[query] )
+
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          );
+
+          if (!res.ok) {
+            throw new Error("Something went wrong with fetching movies");
+          }
+          const data = await res.json();
+
+          if (data.Response === "False") {
+            throw new Error("Movie not found");
+          }
+          setMovies(data.Search); // this is not allowed in render logic, infinite loop update state, re-render component
+          // console.log(data.Search)
+        } catch (error) {
+          setError(error.message);
+          console.error(error.message);
+        } finally {
+          setIsLoading(false);
+        }
       }
-      const data = await res.json()
-      
-      if (data.Response === 'False') {
-        throw new Error('Movie not found')
+      if (query.length < 2) {
+        setMovies([]);
+        setError("");
+        return;
       }
-      setMovies(data.Search)  // this is not allowed in render logic, infinite loop update state, re-render component
-      // console.log(data.Search)
-    } catch (error) {
-      setError(error.message)
-      console.error(error.message)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-  fetchMovies();
-},[])
+      fetchMovies();
+    },
+    [query]
+  );
 
-
-// setWatched([]) // this generates an error too , because generates a loop
+  // setWatched([]) // this generates an error too , because generates a loop
 
   return (
     <>
       <NavBar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies}></NumResults>
       </NavBar>
 

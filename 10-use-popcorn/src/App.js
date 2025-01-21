@@ -263,7 +263,12 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     function () {
       if (!title) return;
       document.title = `Movie | ${title}`;
-      
+
+       //cleaning up
+       return function () {
+        document.title = "usePopcorn App";
+        // console.log(`clean up effect for movie ${title}`)
+      };
     },
     [title]
   );

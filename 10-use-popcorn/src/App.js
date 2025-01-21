@@ -264,8 +264,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       if (!title) return;
       document.title = `Movie | ${title}`;
 
-       //cleaning up
-       return function () {
+      //cleaning up
+      return function () {
         document.title = "usePopcorn App";
         // console.log(`clean up effect for movie ${title}`)
       };
@@ -372,11 +372,15 @@ export default function App() {
 
   useEffect(
     function () {
+      const controller = new AbortController(); //browser API, not from react
+
       async function fetchMovies() {
         try {
           setIsLoading(true);
           setError("");
-          const res = await fetch(`${apiBaseUrl}&s=${query}`);
+          const res = await fetch(`${apiBaseUrl}&s=${query}`, {
+            signal: controller.signal,
+          });
 
           if (!res.ok) {
             throw new Error("Something went wrong with fetching movies");
@@ -388,8 +392,11 @@ export default function App() {
           }
           setMovies(data.Search); // this is not allowed in render logic, infinite loop update state, re-render component
           // console.log(data.Search);
+          setError("");
         } catch (error) {
-          setError(error.message);
+          if (error.name !== "AbortError") {
+            setError(error.message);
+          }
           console.error(error.message);
         } finally {
           setIsLoading(false);
@@ -401,6 +408,10 @@ export default function App() {
         return;
       }
       fetchMovies();
+
+      return function () {
+        controller.abort();
+      };
     },
     [query]
   );

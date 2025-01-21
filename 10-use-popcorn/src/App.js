@@ -261,6 +261,23 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
   useEffect(
     function () {
+      function callback(e) {
+        if (e.key === "Escape") {
+          onCloseMovie();
+          console.log('CLOSING')
+        }
+      }
+
+      document.addEventListener("keydown", callback);
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [onCloseMovie]
+  );
+
+  useEffect(
+    function () {
       if (!title) return;
       document.title = `Movie | ${title}`;
 
@@ -333,12 +350,12 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 }
 
 export default function App() {
+  const tempQuery = "interstellar";
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const tempQuery = "interstellar";
-  const [query, setQuery] = useState(tempQuery);
+  const [query, setQuery] = useState('');
   const [selectedId, setSelectedId] = useState("");
 
   // useEffect(function(){
@@ -407,6 +424,7 @@ export default function App() {
         setError("");
         return;
       }
+      handleCloseMovie();
       fetchMovies();
 
       return function () {

@@ -243,7 +243,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const isTop = imdbRating > 8;
   console.log(isTop);
 
-  const [avgRating, setAvgRating] = useState(0);
+  // const [avgRating, setAvgRating] = useState(0);
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -262,7 +262,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     // alert(avgRating)
     // setAvgRating((avgRating + imdbRating) / 2);
 
-    // correct way to update a state using a function 
+    // correct way to update a state using a function
     // setAvgRating(avgRating =>(userRating + avgRating) / 2)
   }
 
@@ -344,7 +344,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
               </p>
             </div>
           </header>
-          <p>{avgRating}</p>
+          {/* <p>{avgRating}</p> */}
           <section>
             <div className="rating">
               {!isWatched ? (
@@ -382,11 +382,16 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 export default function App() {
   const tempQuery = "interstellar";
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
+  
+  // const [watched, setWatched] = useState([]);
+   const [watched, setWatched] = useState(()=>{
+    const storedValue = localStorage.getItem("watched");
+    return JSON.parse(storedValue) || [];
+   });
 
   // useEffect(function(){
   //   console.log('After initial render')
@@ -411,11 +416,20 @@ export default function App() {
   // 152
   function handleAddWatched(movie) {
     setWatched((watched) => [...watched, movie]);
+    // 163
+    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
   }
 
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
+
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
+  );
 
   useEffect(
     function () {

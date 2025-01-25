@@ -209,7 +209,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   const watchedUserRating = watched.find(
     (movie) => movie.imdbID === selectedId
   )?.userRating;
-  
+
   const {
     Title: title,
     Year: year,
@@ -223,13 +223,27 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Genre: genre,
   } = movie;
 
-  
   // if(imdbRating > 8) {
   //   const [isTop, setIsTop] = useState(true)
   // }
   // if (imdbRating > 8) {
   //   return <p>Greatest ever!</p>
   // }
+
+  // const [isTop, setIsTop] = useState(imdbRating > 8)
+  // console.log(isTop)
+
+  // useEffect(() => {
+  //   if (imdbRating > 8) {
+  //     setIsTop(true)
+  //   }
+  // }, [imdbRating])
+
+  //best way is to use a derived state
+  const isTop = imdbRating > 8;
+  console.log(isTop);
+
+  const [avgRating, setAvgRating] = useState(0);
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -243,6 +257,13 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     };
     onAddWatched(newWatchedMovie);
     onCloseMovie();
+    // this will not work to update because they are async actions
+    // setAvgRating(Number(imdbRating));
+    // alert(avgRating)
+    // setAvgRating((avgRating + imdbRating) / 2);
+
+    // correct way to update a state using a function 
+    // setAvgRating(avgRating =>(userRating + avgRating) / 2)
   }
 
   useEffect(
@@ -272,7 +293,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       function callback(e) {
         if (e.key === "Escape") {
           onCloseMovie();
-          console.log('CLOSING')
+          console.log("CLOSING");
         }
       }
 
@@ -323,6 +344,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
               </p>
             </div>
           </header>
+          <p>{avgRating}</p>
           <section>
             <div className="rating">
               {!isWatched ? (
@@ -363,7 +385,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
 
   // useEffect(function(){

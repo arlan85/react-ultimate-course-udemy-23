@@ -20,6 +20,16 @@ function NavBar({ children }) {
 }
 
 function Search({ query, setQuery }) {
+  // this is not the react way to doing this kinda thing.
+  // React is declarative, not recommended to manually select elements like this.
+  useEffect(
+    function () {
+      const searchElem = document.querySelector('.search');
+      console.log(searchElem)
+      searchElem.focus();
+    },
+    []
+  );
   return (
     <input
       className="search"

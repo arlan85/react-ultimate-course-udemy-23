@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StartRating from "./components/StartRating";
 
 const KEY = "710b0dfa";
@@ -22,14 +22,35 @@ function NavBar({ children }) {
 function Search({ query, setQuery }) {
   // this is not the react way to doing this kinda thing.
   // React is declarative, not recommended to manually select elements like this.
-  useEffect(
-    function () {
-      const searchElem = document.querySelector('.search');
-      console.log(searchElem)
-      searchElem.focus();
-    },
-    []
-  );
+  // useEffect(
+  //   function () {
+  //     const searchElem = document.querySelector('.search');
+  //     console.log(searchElem)
+  //     searchElem.focus();
+  //   },
+  //   []
+  // );
+
+  const searchInput = useRef(null);
+
+  useEffect(function () {
+    function callback(e) {
+      if (e.code === "Enter") {
+        if(document.activeElement=== searchInput.current){
+          return;
+        }
+        searchInput.current.focus();
+        setQuery('')
+      }
+    }
+    document.addEventListener("keydown", callback);
+    console.log(searchInput.current);
+    searchInput.current.focus();
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [setQuery]);
+
   return (
     <input
       className="search"
@@ -37,6 +58,7 @@ function Search({ query, setQuery }) {
       placeholder="Search movies..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      ref={searchInput}
     />
   );
 }
@@ -396,12 +418,12 @@ export default function App() {
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
-  
+
   // const [watched, setWatched] = useState([]);
-   const [watched, setWatched] = useState(()=>{
+  const [watched, setWatched] = useState(() => {
     const storedValue = localStorage.getItem("watched");
     return JSON.parse(storedValue) || [];
-   });
+  });
 
   // useEffect(function(){
   //   console.log('After initial render')

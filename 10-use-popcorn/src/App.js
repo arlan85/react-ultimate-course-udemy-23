@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import StartRating from "./components/StartRating";
-
-const KEY = "710b0dfa";
-const apiBaseUrl = `http://www.omdbapi.com/?apikey=${KEY}`;
+import apiBaseUrl from "./configs/api";
+import { useMovies } from "./hooks/useMovies";
 
 const average = (arr, fixed = 2) => {
   const avg = arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -421,13 +420,10 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 }
 
 export default function App() {
-  const tempQuery = "interstellar";
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
 
+  const { movies, isLoading, error } = useMovies(query)
   // const [watched, setWatched] = useState([]);
   const [watched, setWatched] = useState(() => {
     const storedValue = localStorage.getItem("watched");
@@ -472,52 +468,7 @@ export default function App() {
     [watched]
   );
 
-  useEffect(
-    function () {
-      const controller = new AbortController(); //browser API, not from react
-
-      async function fetchMovies() {
-        try {
-          setIsLoading(true);
-          setError("");
-          const res = await fetch(`${apiBaseUrl}&s=${query}`, {
-            signal: controller.signal,
-          });
-
-          if (!res.ok) {
-            throw new Error("Something went wrong with fetching movies");
-          }
-          const data = await res.json();
-
-          if (data.Response === "False") {
-            throw new Error("Movie not found");
-          }
-          setMovies(data.Search); // this is not allowed in render logic, infinite loop update state, re-render component
-          // console.log(data.Search);
-          setError("");
-        } catch (error) {
-          if (error.name !== "AbortError") {
-            setError(error.message);
-          }
-          console.error(error.message);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-      if (query.length < 3) {
-        setMovies([]);
-        setError("");
-        return;
-      }
-      handleCloseMovie();
-      fetchMovies();
-
-      return function () {
-        controller.abort();
-      };
-    },
-    [query]
-  );
+ 
 
   // setWatched([]) // this generates an error too , because generates a loop
 

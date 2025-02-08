@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import StartRating from "./components/StartRating";
 import apiBaseUrl from "./configs/api";
+import { useLocalStorageState } from "./hooks/useLocalStorage";
 import { useMovies } from "./hooks/useMovies";
 
 const average = (arr, fixed = 2) => {
@@ -424,11 +425,8 @@ export default function App() {
   const [selectedId, setSelectedId] = useState("");
 
   const { movies, isLoading, error } = useMovies(query)
-  // const [watched, setWatched] = useState([]);
-  const [watched, setWatched] = useState(() => {
-    const storedValue = localStorage.getItem("watched");
-    return JSON.parse(storedValue) || [];
-  });
+
+  const [watched, setWatched] = useLocalStorageState([], "watched");
 
   // useEffect(function(){
   //   console.log('After initial render')
@@ -460,15 +458,6 @@ export default function App() {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
-
-  useEffect(
-    function () {
-      localStorage.setItem("watched", JSON.stringify(watched));
-    },
-    [watched]
-  );
-
- 
 
   // setWatched([]) // this generates an error too , because generates a loop
 

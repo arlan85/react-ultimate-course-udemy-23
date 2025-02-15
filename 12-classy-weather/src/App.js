@@ -34,13 +34,19 @@ function formatDay(dateStr) {
 }
 class App extends React.Component {
   state = {
-    location: "lisbon",
+    location: "",
     weatherLocation: "",
     weather: {},
     isLoading: false,
   };
 
   fetchWeather = async () => {
+    if (this.state.location.length < 2) {
+      return this.setState({
+        weatherData: {},
+      });
+    }
+
     try {
       this.setState({
         isLoading: true,
@@ -65,10 +71,9 @@ class App extends React.Component {
         `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&timezone=${timezone}&daily=weathercode,temperature_2m_max,temperature_2m_min`
       );
       const weather = await weatherRes.json();
-      console.log(weather.daily);
       this.setState({ weatherData: weather.daily });
     } catch (err) {
-      console.err(err);
+      console.error(err);
     } finally {
       this.setState({
         isLoading: false,
@@ -80,6 +85,25 @@ class App extends React.Component {
     this.setState({
       location: e.target.value,
     });
+
+  //lifecycle methods
+
+  // useEffect []
+  componentDidMount() {
+    const location = localStorage.getItem("location");
+    if (location) {
+      this.setState({ location });
+    }
+  }
+
+  //useEffect [location], but this only on re-renders
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.location !== this.state.location) {
+      this.fetchWeather();
+      localStorage.setItem("location", this.state.location);
+    }
+  }
+
   render() {
     return (
       <div className="app">
@@ -88,7 +112,6 @@ class App extends React.Component {
           location={this.state.location}
           onChangeLocation={this.setLocation}
         />
-        <button onClick={this.fetchWeather}>Search weather</button>
         {this.state.isLoading && <p className="loader">isLoading data...</p>}
         {!this.state.isLoading && this.state.weatherData?.weathercode && (
           <Weather
@@ -104,18 +127,27 @@ class App extends React.Component {
 export default App;
 
 class Input extends React.Component {
-  render()  {
-    return  <input
-      type="text"
-      placeholder="search for location..."
-      value={this.props.location}
-      onChange={this.props.onChangeLocation}
-    />;
+  render() {
+    return (
+      <input
+        type="text"
+        placeholder="search for location..."
+        value={this.props.location}
+        onChange={this.props.onChangeLocation}
+      />
+    );
   }
 }
 class Weather extends React.Component {
+
+  // return () {} cleanup function but this one only runs after the component
+  //unmounts, not between renders
+  //cleanup after some effects 
+  componentWillUnmount(){
+console.log("Weather unmount")
+  }
+
   render() {
-    console.log(this.props.weatherData);
     const {
       temperature_2m_max: maxTemperature,
       temperature_2m_min: minTemperature,
@@ -145,7 +177,6 @@ class Weather extends React.Component {
 
 class Day extends React.Component {
   render() {
-    console.log({ props: this.props });
     const { date, max, min, code, isToday } = this.props;
     return (
       <li className="day">

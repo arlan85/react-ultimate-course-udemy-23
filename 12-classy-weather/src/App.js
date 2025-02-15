@@ -27,9 +27,10 @@ function convertToFlag(countryCode) {
 }
 
 function formatDay(dateStr) {
+  const date = new Date(dateStr + "T00:00:00");
   return new Intl.DateTimeFormat("en", {
     weekday: "short",
-  }).format(new Date(dateStr));
+  }).format(date);
 }
 class App extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class App extends React.Component {
         `https://geocoding-api.open-meteo.com/v1/search?name=${this.state.location}`
       );
       const geoData = await geoRes.json();
-      console.log(geoData);
+      // console.log(geoData);
 
       if (!geoData.results) throw new Error("Location not found");
 
@@ -67,8 +68,9 @@ class App extends React.Component {
       const weatherRes = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&timezone=${timezone}&daily=weathercode,temperature_2m_max,temperature_2m_min`
       );
-      const weatherData = await weatherRes.json();
-      this.setState({ weatherData: weatherData.daily });
+      const weather = await weatherRes.json();
+      console.log(weather.daily);
+      this.setState({ weatherData: weather.daily });
     } catch (err) {
       console.err(err);
     } finally {
@@ -94,9 +96,62 @@ class App extends React.Component {
         />
         <button onClick={this.fetchWeather}>Search weather</button>
         {this.state.isLoading && <p className="loader">isLoading data...</p>}
+        {!this.state.isLoading && this.state.weatherData?.weathercode && (
+          <Weather
+            location={this.state.weatherLocation}
+            weatherData={this.state.weatherData}
+          />
+        )}
       </div>
     );
   }
 }
 
 export default App;
+
+class Weather extends React.Component {
+  render() {
+    console.log(this.props.weatherData);
+    const {
+      temperature_2m_max: maxTemperature,
+      temperature_2m_min: minTemperature,
+      time: dates,
+      weathercode: codes,
+    } = this.props.weatherData;
+
+    return (
+      <div>
+        <h2>Weather {this.props.location}</h2>
+        <ul className="weather">
+          {dates.map((date, i) => (
+            <Day
+              key={date}
+              date={date}
+              max={maxTemperature.at(i)}
+              min={minTemperature.at(i)}
+              code={codes.at(i)}
+              isToday={i === 0}
+            />
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
+
+class Day extends React.Component {
+  render() {
+    console.log({ props: this.props });
+    const { date, max, min, code, isToday } = this.props;
+    return (
+      <li className="day">
+        <span>{getWeatherIcon(code)}</span>
+        <p>{date}</p>
+        <p>{isToday ? "Today" : formatDay(date)}</p>
+        <p>
+          {Math.floor(min)}°- <strong>{Math.ceil(max)}°</strong>
+        </p>
+      </li>
+    );
+  }
+}

@@ -3,13 +3,14 @@ import Error from "./Error";
 import Header from "./Header";
 import Loader from "./Loader";
 import Main from "./Main";
-import Questions from "./Questions";
+import Question from "./Question";
 import StartScreen from "./StartScreen";
 
 const initialState = {
   status: "loading", // loading, error, ready, active, finished
   questions: [],
   error: null,
+  index: 0
 };
 
 
@@ -28,7 +29,7 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [{ status, questions, error }, dispatch] = useReducer(reducer, initialState);
+  const [{ status, questions, index, error }, dispatch] = useReducer(reducer, initialState);
   const numQuestions = questions.length;
 
   useEffect(function () {
@@ -51,7 +52,7 @@ export default function App() {
         {status === "loading" && <Loader/>}
        {status === "error" && <Error/>}
         {status === 'ready' && <StartScreen numQuestions={numQuestions} dispatch={dispatch}/>}
-       {status === "active" && <Questions/>}
+       {status === "active" && <Question question={questions[index]} />}
       </Main>
     </div>
   );

@@ -22,8 +22,9 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { status, questions, error } = state; 
+  const [{ status, questions, error }, dispatch] = useReducer(reducer, initialState);
+  
+
   useEffect(function () {
     fetch("http://localhost:8000/questions")
       .then((result) =>  result.json())

@@ -68,3 +68,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# TODO
+- Allow the users select number of random questions
+- Allow the users to select the level of dificulty he wants
+- Upload the high score to the api as a result
+- Store all the answers outside the content to know the answers he did back in time.

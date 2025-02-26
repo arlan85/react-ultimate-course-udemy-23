@@ -7,6 +7,7 @@ import Product from "./pages/Product";
 
 function App() {
   return (
+    <div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -16,6 +17,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
+      </div>
   );
 }
 

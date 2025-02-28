@@ -1,13 +1,7 @@
-import Navigation from "../components/Navigation"
-
-function PageNotFound() {
+export default function PageNotFound() {
   return (
     <div>
-      <Navigation/> 
-      
-      PAGE NOT FOUND!
+      <h1>Page not found 😢</h1>
     </div>
-  )
+  );
 }
-
-export default PageNotFound

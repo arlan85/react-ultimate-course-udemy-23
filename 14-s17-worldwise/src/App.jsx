@@ -11,16 +11,21 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route index element={<HomePage />} />
           <Route path="product" element={<Product />} />
           <Route path="pricing" element={<Pricing />} />
           <Route path="login" element={<Login />} />
-          <Route path="app" element={<AppLayout />} />
+          <Route path="app" element={<AppLayout />}>
+            <Route index element={<p>list of cities</p>} />
+            <Route path="cities" element={<p>list of cities</p>} />
+            <Route path="countries" element={<p>list of countries</p>} />
+            <Route path="form" element={<p>this is the form</p>} />
+          </Route>
           {/* this matches all paths that do not match the above routes */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-      </div>
+    </div>
   );
 }
 

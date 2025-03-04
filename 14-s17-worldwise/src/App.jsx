@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CityList from "./components/CityList";
+import CountryList from "./components/CountryList";
 import AppLayout from "./pages/AppLayout";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Pricing from "./pages/Pricing";
 import Product from "./pages/Product";
+
 const BASE_URL = "http://localhost:9000";
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
           <Route path="app" element={<AppLayout />}>
             <Route index element={<CityList cities={cities} isLoading={isLoading}/>} />
             <Route path="cities" element={<CityList cities={cities} isLoading={isLoading}/>} />
-            <Route path="countries" element={<p>list of countries</p>} />
+            <Route path="countries" element={<CountryList cities={cities} isLoading={isLoading}/>} />
             <Route path="form" element={<p>this is the form</p>} />
           </Route>
           {/* this matches all paths that do not match the above routes */}

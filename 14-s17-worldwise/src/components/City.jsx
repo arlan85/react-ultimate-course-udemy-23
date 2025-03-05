@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import styles from "./City.module.css";
 
 const formatDate = (date) =>
@@ -11,8 +11,13 @@ const formatDate = (date) =>
 
 function City() {
   const {id} = useParams() // this destructured is related to the name we have on the Route
-  console.log(id);
-  return <h1 className={styles.city}>{id}</h1>;
+  const [searchParams, setSearchParams]  = useSearchParams()
+  const lat = searchParams.get('lat')
+  const lng = searchParams.get('lng')
+  return <>
+  <h1 className={styles.city}>City {id} </h1>
+  <p>lat: {lat} lng: {lng}</p>
+  </>
   // TEMP DATA
   // const currentCity = {
   //   cityName: "Lisbon",

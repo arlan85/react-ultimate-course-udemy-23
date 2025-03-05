@@ -8,10 +8,11 @@ const formatDate  = (date) => new Intl.DateTimeFormat('en', {
 }).format(new Date(date));
 
 function CityItem({ city }) {
-  const { cityName, emoji, date} = city
+  const { cityName, emoji, date, id, position} = city
+  const {lat, lng} = position
   return (
     <li>
-      <Link className={styles.cityItem} to={`${city.id}`}>
+      <Link className={styles.cityItem} to={`${id}?lat=${lat}&lng=${lng}`}>
       <span className={styles.emoji}>{emoji}</span>
       <h3 className={styles.name}>{cityName}</h3>
       <time className={styles.date}>({formatDate(date)})</time>
@@ -26,6 +27,10 @@ CityItem.propTypes = {
     emoji: PropTypes.string.isRequired,
     date: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    position: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 

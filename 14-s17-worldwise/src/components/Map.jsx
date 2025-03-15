@@ -9,6 +9,8 @@ import {
 } from "react-leaflet";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCities } from "../contexts";
+import { useGeolocation } from "../hooks";
+import Button from "./Button";
 import styles from "./Map.module.css";
 // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 
@@ -18,6 +20,12 @@ function MapComponent() {
   const mapLat = searchParams.get("lat");
   const mapLng = searchParams.get("lng");
   const [mapPosition, setMapPosition] = useState([40, 0]);
+ const {
+  position: geoPos,
+   isloading: isGeoLoading,
+    getGeoData 
+  } = useGeolocation()
+
 
   useEffect(() => {
     if (mapLat && mapLng) {
@@ -25,8 +33,19 @@ function MapComponent() {
     }
   }, [mapLat, mapLng]);
 
+  //this is not required, you must use as least effect as you need, not too many effects to avoid re-denders
+  useEffect(() => {
+    if (geoPos) {
+      setMapPosition([geoPos.lat, geoPos.lng]);
+    }
+  }, [geoPos])
+
+
   return (
     <div className={styles.mapContainer}>
+    {!geoPos &&  <Button type="position" onClick={getGeoData}>
+        {isGeoLoading ? "Loading..." : "Use my position"}
+      </Button>}
       <MapContainer
         className={styles.map}
         center={mapPosition}

@@ -7,19 +7,17 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCities } from "../contexts";
-import { useGeolocation } from "../hooks";
+import { useGeolocation, useUrlPosition } from "../hooks";
 import Button from "./Button";
 import styles from "./Map.module.css";
 // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 
 function MapComponent() {
   const { cities } = useCities();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const mapLat = searchParams.get("lat");
-  const mapLng = searchParams.get("lng");
   const [mapPosition, setMapPosition] = useState([40, 0]);
+  const [mapLat, mapLng] = useUrlPosition();
  const {
   position: geoPos,
    isloading: isGeoLoading,
@@ -92,7 +90,7 @@ function DetectClick() {
   useMapEvents({
     click: (e) => {
       const { lat, lng } = e.latlng;
-      navigate(`form?lat=${lat}&lng=&${lng}`);
+      navigate(`form?lat=${lat}&lng=${lng}`);
     },
   });
 

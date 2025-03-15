@@ -25,6 +25,7 @@ function reducer(state, action) {
   }
 }
 
+// NEVER USE THIS ON REAL LIFE APPS!!!
 const FAKE_USER = {
   name: "Jack",
   email: "jack@example.com",
@@ -32,9 +33,8 @@ const FAKE_USER = {
   avatar: "https://i.pravatar.cc/100?u=zz",
 };
 
-
 function AuthProvider({ children }) {
-  const [{ isAuthenticated, user }, dispatch] = useReducer(
+  const [{ isAuthenticated, user, error }, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -42,7 +42,8 @@ function AuthProvider({ children }) {
   function login(email, password) {
     if (email === FAKE_USER.email && password === FAKE_USER.password) {
       // perform login logic here
-      dispatch({ type: "login", payload: { user: FAKE_USER } });
+      const { password, ...user } = FAKE_USER;
+      dispatch({ type: "login", payload:  user });
     } else {
       dispatch({ type: "error", payload: "Invalid email or password" });
     }
@@ -51,12 +52,18 @@ function AuthProvider({ children }) {
     dispatch({ type: "logout" });
   }
 
-  return <Authcontext.Provider data={{
-    isAuthenticated,
-    user,
-    login,
-    logout
-  }}>{children}</Authcontext.Provider>;
+  return (
+    <Authcontext.Provider
+      value={{
+        isAuthenticated,
+        user,
+        login,
+        error,
+        logout,
+      }}>
+      {children}
+    </Authcontext.Provider>
+  );
 }
 AuthProvider.propTypes = {
   children: PropTypes.node,

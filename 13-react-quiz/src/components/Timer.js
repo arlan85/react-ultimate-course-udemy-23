@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect } from "react";
+import { useQuiz } from '../contexts/QuizContext';
 
-function Timer({dispatch, secondsTemaining}) {
+function Timer() {
+  const {secondsTemaining, dispatch} = useQuiz();
+
   const minutes = Math.floor(secondsTemaining / 60);
   const seconds = secondsTemaining % 60;
   useEffect(() => {

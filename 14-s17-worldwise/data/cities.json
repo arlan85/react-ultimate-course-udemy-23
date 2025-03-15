@@ -37,76 +37,6 @@
       "id": "98443197"
     },
     {
-      "id": "8fda",
-      "cityName": "Bagneux",
-      "country": "France",
-      "emoji": "🇫🇷",
-      "date": "2025-03-15T18:31:22.151Z",
-      "notes": "test",
-      "latitude": "46.649436163350245",
-      "longitude": "3.2299804687500004",
-      "position": {
-        "lat": "46.649436163350245",
-        "lng": "3.2299804687500004"
-      }
-    },
-    {
-      "id": "b521",
-      "cityName": "Montjoire",
-      "country": "France",
-      "emoji": "🇫🇷",
-      "date": "2025-02-23T19:32:16.000Z",
-      "notes": "ewewewe",
-      "latitude": "43.78695837311561",
-      "longitude": "1.5161132812500002",
-      "position": {
-        "lat": "43.78695837311561",
-        "lng": "1.5161132812500002"
-      }
-    },
-    {
-      "id": "3f43",
-      "cityName": "Lindesberg",
-      "country": "Sweden",
-      "emoji": "🇸🇪",
-      "date": "2025-03-31T18:34:59.000Z",
-      "notes": "test",
-      "latitude": "59.712097173322924",
-      "longitude": "15.468750000000002",
-      "position": {
-        "lat": "59.712097173322924",
-        "lng": "15.468750000000002"
-      }
-    },
-    {
-      "id": "ab1c",
-      "cityName": "Lugo",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2025-03-15T18:37:28.337Z",
-      "notes": "test",
-      "latitude": "43.03677585761058",
-      "longitude": "-7.481689453125001",
-      "position": {
-        "lat": "43.03677585761058",
-        "lng": "-7.481689453125001"
-      }
-    },
-    {
-      "id": "4a59",
-      "cityName": "Lugo",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2025-03-15T18:37:28.337Z",
-      "notes": "test",
-      "latitude": "43.03677585761058",
-      "longitude": "-7.481689453125001",
-      "position": {
-        "lat": "43.03677585761058",
-        "lng": "-7.481689453125001"
-      }
-    },
-    {
       "id": "f3e9",
       "cityName": "Chodow",
       "country": "Poland",
@@ -118,6 +48,20 @@
       "position": {
         "lat": "52.214338608258224",
         "lng": "19.072265625000004"
+      }
+    },
+    {
+      "id": "2cf8",
+      "cityName": "Roches",
+      "country": "France",
+      "emoji": "🇫🇷",
+      "date": "2024-10-13T18:53:28.000Z",
+      "notes": "test",
+      "latitude": "46.27483447871404",
+      "longitude": "1.9775390625000002",
+      "position": {
+        "lat": "46.27483447871404",
+        "lng": "1.9775390625000002"
       }
     }
   ]

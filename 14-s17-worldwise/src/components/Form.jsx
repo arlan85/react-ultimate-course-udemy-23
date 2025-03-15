@@ -47,7 +47,6 @@ function Form() {
           `${BASE_GEO_URL}?latitude=${newLat}&longitude=${newLng}`
         );
         const data = await response.json();
-        console.log(data);
         if (!data.countryCode)
           throw new Error(
             "That doesn't seem to be a city. Click somewhere else 😉"

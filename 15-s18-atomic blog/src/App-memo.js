@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 
 function createRandomPost() {
   return {
@@ -41,10 +41,14 @@ function App() {
     [isFakeDark]
   );
 
-  const archiveOptions = {
-    show: false,
-    title: "Post archives"
+  // computed once, just on the beginning asking fro mthe cache after first render
+  const archiveOptions = useMemo(() => {
+    return { 
+      show: false, 
+      title: `Post archives in addition to ${posts.length} main posts`,
   }
+}, [posts.length]
+);
 
   return (
     <section>
@@ -159,7 +163,7 @@ function List({ posts }) {
   );
 }
 
-const Archive = memo (function Archive({archiveOptions}) {
+const Archive = memo(function Archive({ archiveOptions }) {
   // Here we don't need the setter function. We're only using state to store these posts because the callback function passed into useState (which generates the posts) is only called once, on the initial render. So we use this trick as an optimization technique, because if we just used a regular variable, these posts would be re-created on every render. We could also move the posts outside the components, but I wanted to show you this trick 😉
   const [posts] = useState(() =>
     // 💥 WARNING: This might make your computer slow! Try a smaller `length` first
@@ -189,7 +193,7 @@ const Archive = memo (function Archive({archiveOptions}) {
       )}
     </aside>
   );
-})
+});
 
 function Footer() {
   return <footer>&copy; by The Atomic Blog ✌️</footer>;

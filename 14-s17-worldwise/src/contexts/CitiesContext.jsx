@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useCallback, useContext, useEffect, useReducer } from "react";
 import { BASE_URL } from "./config";
 
 const CitiesContext = createContext();
@@ -65,6 +65,7 @@ function CitiesProvider({ children }) {
     fetchCities();
   }, []);
 
+const getCity = useCallback(
   async function getCity(id) {
     if (id === currentCity.id.toString()) return;
     dispatch({type: "loading"});
@@ -78,7 +79,9 @@ function CitiesProvider({ children }) {
         payload: "There was an error getting a city: " + error.message,
       });
     }
-  }
+  },
+  [currentCity.id]
+) 
   
   async function deleteCity(id) {
     try {

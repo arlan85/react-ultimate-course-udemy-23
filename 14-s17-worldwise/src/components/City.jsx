@@ -16,9 +16,10 @@ const formatDate = (date) =>
 function City() {
   const {id} = useParams() // this destructured is related to the name we have on the Route
   const {getCity, currentCity, isLoading}  = useCities();
+  
   useEffect(() => {
   getCity(id)
-  }, [id])
+  }, [getCity, id])
   
 
   const { cityName, emoji, date, notes } = currentCity;

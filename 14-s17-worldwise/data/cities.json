@@ -65,20 +65,6 @@
       }
     },
     {
-      "id": "cc6f",
-      "cityName": "Ghan",
-      "country": "Australia",
-      "emoji": "🇦🇺",
-      "date": "2025-03-15T19:33:56.730Z",
-      "notes": "dfdfdf",
-      "latitude": "-24.766784522874442",
-      "longitude": "135.08789062500003",
-      "position": {
-        "lat": "-24.766784522874442",
-        "lng": "135.08789062500003"
-      }
-    },
-    {
       "id": "dfcb",
       "cityName": "Nicholson",
       "country": "Australia",
@@ -90,6 +76,62 @@
       "position": {
         "lat": "-19.186677697957833",
         "lng": "136.66992187500003"
+      }
+    },
+    {
+      "id": "1cd9",
+      "cityName": "Cabaiguan",
+      "country": "Cuba",
+      "emoji": "🇨🇺",
+      "date": "2025-04-20T23:08:49.882Z",
+      "notes": "",
+      "latitude": "22.207749178410857",
+      "longitude": "-79.43115234375001",
+      "position": {
+        "lat": "22.207749178410857",
+        "lng": "-79.43115234375001"
+      }
+    },
+    {
+      "id": "7ef8",
+      "cityName": "Montego Bay",
+      "country": "Jamaica",
+      "emoji": "🇯🇲",
+      "date": "2025-04-20T23:08:58.598Z",
+      "notes": "",
+      "latitude": "18.458768120015137",
+      "longitude": "-77.91503906250001",
+      "position": {
+        "lat": "18.458768120015137",
+        "lng": "-77.91503906250001"
+      }
+    },
+    {
+      "id": "89db",
+      "cityName": "Caicara del Orinoco",
+      "country": "Venezuela (Bolivarian Republic of)",
+      "emoji": "🇻🇪",
+      "date": "2025-04-20T23:09:11.915Z",
+      "notes": "",
+      "latitude": "7.27529233637217",
+      "longitude": "-66.35742187500001",
+      "position": {
+        "lat": "7.27529233637217",
+        "lng": "-66.35742187500001"
+      }
+    },
+    {
+      "id": "423a",
+      "cityName": "Guyana",
+      "country": "Guyana",
+      "emoji": "🇬🇾",
+      "date": "2025-04-20T23:09:17.967Z",
+      "notes": "",
+      "latitude": "6.839169626342808",
+      "longitude": "-58.18359375",
+      "position": {
+        "lat": "6.839169626342808",
+        "lng": "-58.18359375"
       }
     }
   ]

@@ -50,6 +50,17 @@ function Calculator({ workouts, allowSound }) {
               // even though we are not using it anywhere here. So this is simply to tell the effect that we wanted to run whenever the duration changes.
   );
 
+  /** So that was in the initial render. So a closure has been created here
+
+at the time that this first render was created
+
+and it closed over the props
+
+and the state in the case of React. SNAPSHOT */
+  useEffect(()=>{
+    document.title= `Your ${number}-exercise workout`},
+    []) //never recreates
+
   // const duration = (number * sets * speed) / 60 + (sets - 1) * durationBreak;
   const mins = Math.floor(duration);
   const seconds = (duration - mins) * 60;

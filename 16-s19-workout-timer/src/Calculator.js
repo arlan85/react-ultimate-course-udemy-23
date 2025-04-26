@@ -59,7 +59,7 @@ and it closed over the props
 and the state in the case of React. SNAPSHOT */
   useEffect(()=>{
     document.title= `Your ${number}-exercise workout`},
-    []) //never recreates
+    [number]) 
 
   // const duration = (number * sets * speed) / 60 + (sets - 1) * durationBreak;
   const mins = Math.floor(duration);

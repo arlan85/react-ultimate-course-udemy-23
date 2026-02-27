@@ -1,8 +1,14 @@
-import { createStore } from "redux";
-const initialState = {
+import { combineReducers, createStore } from "redux";
+const initialStateAccount = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
+};
+
+const initialStateCustomer = {
+  fullName: "",
+  nationalId: "",
+  createdAt: "",
 };
 
 /** Back in the day, React developers also used to place these strings here into separate variables into a separate file.
@@ -16,7 +22,7 @@ const bankActions = {
   PAY_LOAN: "account/payLoan",
 };
 
-function reducer(state = initialState, action) {
+function accountReducer(state = initialStateAccount, action) {
   // init state with initial state
   switch (action.type) {
     case bankActions.DEPOSIT: {
@@ -50,9 +56,35 @@ function reducer(state = initialState, action) {
   }
 }
 
-//Redux feature
+function customerReducer(state = initialStateCustomer, action) {
+  switch (action.type) {
+    case "customer/createCustomer": {
+      return {
+        ...state,
+        fullName: action.payload.fullName,
+        nationalId: action.payload.nationalId,
+        createdAt: action.createdAt,
+      };
+    }
+    case "customer/updateName": {
+      return {
+        ...state,
+        fullName: action.payload,
+      };
+    }
+    default:
+      return state;
+  }
+}
 
-const store = createStore(reducer);
+//root Reducer
+const rootReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
+});
+
+//Redux feature
+const store = createStore(rootReducer);
 
 // store.dispatch({ type: "account/deposit", payload: 500 }); // same as the useReducer function
 // console.log("Hey Redux");
@@ -97,4 +129,30 @@ console.log(store.getState());
 store.dispatch(requestLoan(1000, "buy a car"));
 console.log(store.getState());
 store.dispatch(payLoan());
+console.log(store.getState());
+
+// customer
+function createCustomer(fullName, nationalId) {
+  return {
+    type: "customer/createCustomer",
+    payload: {
+      fullName,
+      nationalId,
+    }, //the date here is a side effect so it does not belong onto the reducer
+    createdAt: new Date().toISOString(),
+  };
+}
+
+function updateName(fullName) {
+  return {
+    type: "customer/updateName",
+    payload: fullName,
+  };
+}
+
+store.dispatch(createCustomer("Jhon Doe", "2323232333"));
+console.log(store.getState());
+store.dispatch(updateName('Carl Montgomery'))
+console.log(store.getState());
+store.dispatch(deposit(300))
 console.log(store.getState());

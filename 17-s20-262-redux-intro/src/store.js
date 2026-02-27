@@ -5,17 +5,28 @@ const initialState = {
   loanPurpose: "",
 };
 
+/** Back in the day, React developers also used to place these strings here into separate variables into a separate file.
+ * this avoid typo issues and concentrate constants in a single place to manage all actions.
+ * this is not in use anymore nowadays
+ */
+const bankActions = {
+  DEPOSIT: "account/deposit",
+  WITHDRAW: "account/withdraw",
+  REQUEST_LOAN: "account/requestLoan",
+  PAY_LOAN: "account/payLoan",
+};
+
 function reducer(state = initialState, action) {
   // init state with initial state
   switch (action.type) {
-    case "account/deposit": {
+    case bankActions.DEPOSIT: {
       //used to be writed as "SET_BALANCE" or 'DEPOSIT_ACCOUNT' the expressed content is the suggested by the team of redux
       return { ...state, balance: state.balance + action.payload };
     }
-    case "account/withdraw": {
+    case bankActions.WITHDRAW: {
       return { ...state, balance: state.balance - action.payload };
     }
-    case "account/requestLoan": {
+    case bankActions.REQUEST_LOAN: {
       if (state.loan > 0) return state;
       // FOR LATER
       return {
@@ -25,7 +36,7 @@ function reducer(state = initialState, action) {
         balance: state.balance + action.payload.amount,
       };
     }
-    case "account/payLoan": {
+    case bankActions.PAY_LOAN: {
       return {
         ...state,
         loan: 0,
@@ -43,22 +54,47 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer);
 
-store.dispatch({ type: "account/deposit", payload: 500 }); // same as the useReducer function
+// store.dispatch({ type: "account/deposit", payload: 500 }); // same as the useReducer function
+// console.log("Hey Redux");
+// console.log(store.getState());
+// store.dispatch({ type: "account/withdraw", payload: 200 });
+// console.log(store.getState());
+// store.dispatch({
+//   type: "account/requestLoan",
+//   payload: { amount: 4000, purpose: "buy a car" },
+// });
+// console.log(store.getState());
+// store.dispatch({
+//   type: "account/payLoan",
+// });
+// console.log(store.getState());
 
-console.log("Hey Redux");
-console.log(store.getState());
-store.dispatch({ type: "account/withdraw", payload: 200 });
-console.log(store.getState());
+// ACTION CREATORS So basically, action creators are nothing more than simply functions, that return actions. So they are really not a Redux thing,
+// and Redux would work perfectly fine without them, but they are a useful convention that Redux developers have used forever, basically.
+function deposit(amount) {
+  return { type: bankActions.DEPOSIT, payload: amount };
+}
 
-store.dispatch({
-  type: "account/requestLoan",
-  payload: { amount: 4000, purpose: "buy a car" },
-});
-console.log(store.getState());
+function withdraw(amount) {
+  return { type: bankActions.WITHDRAW, payload: amount };
+}
 
-store.dispatch({
-  type: "account/payLoan",
-});
-console.log(store.getState());
+function requestLoan(amount, purpose) {
+  return {
+    type: bankActions.REQUEST_LOAN,
+    payload: { amount, purpose },
+  };
+}
 
-26
+function payLoan() {
+  return { type: bankActions.PAY_LOAN };
+}
+
+store.dispatch(deposit(100));
+console.log(store.getState());
+store.dispatch(withdraw(50));
+console.log(store.getState());
+store.dispatch(requestLoan(1000, "buy a car"));
+console.log(store.getState());
+store.dispatch(payLoan());
+console.log(store.getState());

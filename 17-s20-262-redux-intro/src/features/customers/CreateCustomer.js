@@ -1,10 +1,19 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createCustomer } from "./customerSlice";
 
 function Customer() {
   const [fullName, setFullName] = useState("");
   const [nationalId, setNationalId] = useState("");
 
-  function handleClick() {}
+  const dispatch  = useDispatch();
+  function handleClick() {
+    if(!fullName || !nationalId) return;
+    // action creators come into play again to create the action object for us, and we just need to dispatch the action object that is created by the action creator 
+    dispatch(createCustomer(fullName, nationalId));
+    setFullName("");
+    setNationalId("");
+  }
 
   return (
     <div>

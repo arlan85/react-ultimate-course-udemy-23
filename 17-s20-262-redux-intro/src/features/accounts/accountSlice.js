@@ -43,11 +43,12 @@ export function deposit(amount, currency = "USD") {
     //api call to exchange the currency to USD
     const to = "USD";
     const content = await fetch(
-      `https://api.frankfurter.dev/v1/latest?base=${currency}&symbols=${to}`,
+      `https://api.frankfurter.dev/v2/rate/${currency}/${to}`,
     );
     const data = await content.json();
+    console.log("currency->>>", data);
 
-    const convertedAmount = (amount * data.rates[to]).toFixed(2);
+    const convertedAmount = (amount * data.rate).toFixed(2);
     console.log(`${amount} ${currency} is equal to ${convertedAmount} ${to}`);
 
     //return action

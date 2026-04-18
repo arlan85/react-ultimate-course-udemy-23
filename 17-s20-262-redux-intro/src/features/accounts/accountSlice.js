@@ -13,6 +13,7 @@ const bankActions = {
   WITHDRAW: "account/withdraw",
   REQUEST_LOAN: "account/requestLoan",
   PAY_LOAN: "account/payLoan",
+  COVERTING_CURRENCY: "account/convertingCurrency",
 };
 
 // store.dispatch({ type: "account/deposit", payload: 500 }); // same as the useReducer function
@@ -32,8 +33,26 @@ const bankActions = {
 
 // ACTION CREATORS So basically, action creators are nothing more than simply functions, that return actions. So they are really not a Redux thing,
 // and Redux would work perfectly fine without them, but they are a useful convention that Redux developers have used forever, basically.
-export function deposit(amount) {
-  return { type: bankActions.DEPOSIT, payload: amount };
+export function deposit(amount, currency = "USD") {
+  if (currency === "USD") {
+    return { type: bankActions.DEPOSIT, payload: amount };
+  }
+
+  return async function (dispatch, getState) {
+    dispatch({ type: bankActions.COVERTING_CURRENCY });
+    //api call to exchange the currency to USD
+    const to = "USD";
+    const content = await fetch(
+      `https://api.frankfurter.dev/v1/latest?base=${currency}&symbols=${to}`,
+    );
+    const data = await content.json();
+
+    const convertedAmount = (amount * data.rates[to]).toFixed(2);
+    console.log(`${amount} ${currency} is equal to ${convertedAmount} ${to}`);
+
+    //return action
+    dispatch({ type: bankActions.DEPOSIT, payload: convertedAmount });
+  };
 }
 
 export function withdraw(amount) {
@@ -69,12 +88,19 @@ export default function accountReducer(state = initialStateAccount, action) {
         ...state,
         balance: {
           ...state.balance,
-          amount: state.balance.amount + action.payload,
+          amount: state.balance.amount + Number(action.payload),
         },
+        isLoading: false,
       };
     }
     case bankActions.WITHDRAW: {
-      return { ...state, balance: { ...state.balance, amount: state.balance.amount - action.payload } };
+      return {
+        ...state,
+        balance: {
+          ...state.balance,
+          amount: state.balance.amount - Number(action.payload),
+        },
+      };
     }
     case bankActions.REQUEST_LOAN: {
       if (state.loan > 0) return state;
@@ -83,7 +109,10 @@ export default function accountReducer(state = initialStateAccount, action) {
         ...state,
         loan: action.payload.amount,
         loanPurpose: action.payload.purpose,
-        balance: {...state.balance, amount: state.balance.amount + action.payload.amount},
+        balance: {
+          ...state.balance,
+          amount: state.balance.amount + Number(action.payload.amount),
+        },
       };
     }
     case bankActions.PAY_LOAN: {
@@ -91,7 +120,16 @@ export default function accountReducer(state = initialStateAccount, action) {
         ...state,
         loan: 0,
         loanPurpose: "",
-        balance: { ...state.balance, amount: state.balance.amount - state.loan },
+        balance: {
+          ...state.balance,
+          amount: state.balance.amount - Number(state.loan),
+        },
+      };
+    }
+    case bankActions.COVERTING_CURRENCY: {
+      return {
+        ...state,
+        isLoading: true,
       };
     }
 

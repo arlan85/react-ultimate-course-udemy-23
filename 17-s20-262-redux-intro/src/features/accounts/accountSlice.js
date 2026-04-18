@@ -1,9 +1,8 @@
 const initialStateAccount = {
-  balance: 0,
+  balance: { amount: 0, currency: "USD" },
   loan: 0,
   loanPurpose: "",
 };
-
 
 /** Back in the day, React developers also used to place these strings here into separate variables into a separate file.
  * this avoid typo issues and concentrate constants in a single place to manage all actions.
@@ -41,7 +40,7 @@ export function withdraw(amount) {
   return { type: bankActions.WITHDRAW, payload: amount };
 }
 
-export function requestLoan(amount, purpose) {
+export function requestLoan({ amount, purpose }) {
   return {
     type: bankActions.REQUEST_LOAN,
     payload: { amount, purpose },
@@ -56,21 +55,26 @@ export function payLoan() {
 // console.log(store.getState());
 // store.dispatch(withdraw(50));
 // console.log(store.getState());
-// store.dispatch(requestLoan(1000, "buy a car"));
+// store.dispatch(requestLoan({ amount: 1000, purpose: "buy a car" }));
 // console.log(store.getState());
 // store.dispatch(payLoan());
 // console.log(store.getState());
-
 
 export default function accountReducer(state = initialStateAccount, action) {
   // init state with initial state
   switch (action.type) {
     case bankActions.DEPOSIT: {
       //used to be writed as "SET_BALANCE" or 'DEPOSIT_ACCOUNT' the expressed content is the suggested by the team of redux
-      return { ...state, balance: state.balance + action.payload };
+      return {
+        ...state,
+        balance: {
+          ...state.balance,
+          amount: state.balance.amount + action.payload,
+        },
+      };
     }
     case bankActions.WITHDRAW: {
-      return { ...state, balance: state.balance - action.payload };
+      return { ...state, balance: { ...state.balance, amount: state.balance.amount - action.payload } };
     }
     case bankActions.REQUEST_LOAN: {
       if (state.loan > 0) return state;
@@ -79,7 +83,7 @@ export default function accountReducer(state = initialStateAccount, action) {
         ...state,
         loan: action.payload.amount,
         loanPurpose: action.payload.purpose,
-        balance: state.balance + action.payload.amount,
+        balance: {...state.balance, amount: state.balance.amount + action.payload.amount},
       };
     }
     case bankActions.PAY_LOAN: {
@@ -87,7 +91,7 @@ export default function accountReducer(state = initialStateAccount, action) {
         ...state,
         loan: 0,
         loanPurpose: "",
-        balance: state.balance - state.loan,
+        balance: { ...state.balance, amount: state.balance.amount - state.loan },
       };
     }
 

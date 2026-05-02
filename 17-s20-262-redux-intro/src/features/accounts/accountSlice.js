@@ -21,6 +21,7 @@ const accountSlice = createSlice({
     deposit(state, action) {
       // we can write mutating logic
       state.balance.amount += Number(action.payload); //we mutate the state directly here, but under the hood, createSlice will take care of creating a new state object for us, so we don't have to worry about immutability at all.
+      state.isLoading = false;
     },
     withdraw(state, action) {
       state.balance.amount -= Number(action.payload);
@@ -57,13 +58,40 @@ const accountSlice = createSlice({
     },
     convertingCurrency(state) {
       state.isLoading = true;
+
     },
   },
 });
 
 console.log(accountSlice);
 
-export const { deposit, withdraw, requestLoan, payLoan } = accountSlice.actions;
+
+// implement a thunk but no in a react/toolkit way, this works as expected
+export function deposit(amount, currency = "USD") {
+  if (currency === "USD") {
+    return { type: 
+      "account/deposit", payload: amount };
+  }
+
+  return async function (dispatch, getState) {
+    dispatch({ type: "account/convertingCurrency" });
+    //api call to exchange the currency to USD
+    const to = "USD";
+    const content = await fetch(
+      `https://api.frankfurter.dev/v2/rate/${currency}/${to}`,
+    );
+    const data = await content.json();
+    console.log("currency->>>", data);
+
+    const convertedAmount = (amount * data.rate).toFixed(2);
+    console.log(`${amount} ${currency} is equal to ${convertedAmount} ${to}`);
+
+    //return action
+    dispatch({ type: "account/deposit", payload: convertedAmount });
+  };
+}
+
+export const { withdraw, requestLoan, payLoan } = accountSlice.actions; //we need to remove the other action creator to  avoide use the ones that does not have the async action
 
 export default accountSlice.reducer;
 

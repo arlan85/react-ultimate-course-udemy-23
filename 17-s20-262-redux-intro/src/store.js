@@ -1,17 +1,18 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import { thunk } from "redux-thunk";
+
+/*So basically, configure store does a lot of things automatically for us
+so it automatically will combine our reducers, it will automatically add the Thunk middleware,
+and it will even automatically set up the developer tools*/
+import {configureStore} from "@reduxjs/toolkit";
+
 import accountReducer from "./features/accounts/accountSlice";
 import customerReducer from "./features/customers/customerSlice";
 
-//root Reducer
-const rootReducer = combineReducers({
-  account: accountReducer,
-  customer: customerReducer,
+const store = configureStore({
+  reducer: {
+    account: accountReducer,
+    customer: customerReducer,
+  },
 });
 
-//Redux feature
-const store = createStore(rootReducer, 
-  // composeWithDevTools(applyMiddleware(thunk)),
-  applyMiddleware(thunk));
 
 export default store;

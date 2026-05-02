@@ -1,14 +1,78 @@
-const initialStateAccount = {
+/**
+ This create slice function here gives us three big benefits.
+
+  1-  it'll automatically create action creators from our reducers.
+  2- It makes writing these reducers a lot easier because we no longer need that switch statement and also the default case is automatically handled.
+  3- We can actually mutate now, our state inside reducers. 
+
+*/
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
   balance: { amount: 0, currency: "USD" },
   loan: 0,
   loanPurpose: "",
 };
 
+const accountSlice = createSlice({
+  name: "account",
+  initialState,
+  reducers: {
+    deposit(state, action) {
+      // we can write mutating logic
+      state.balance.amount += Number(action.payload); //we mutate the state directly here, but under the hood, createSlice will take care of creating a new state object for us, so we don't have to worry about immutability at all.
+    },
+    withdraw(state, action) {
+      state.balance.amount -= Number(action.payload);
+    },
+    requestLoan(state, action) { // this works because i from the first time i create and object instead of passing more than one argument
+      if (state.loan > 0) return;
+      state.loan = action.payload.amount;
+      state.loanPurpose = action.payload.purpose;
+      state.balance.amount += Number(action.payload.amount);
+    },
+    /** So basically, what we have to do is to prepare the data before it reaches the reducer.
+      And so what we have to do now here is to separate this. So here, we now need a new object.
+      So let's open that there and then close that right here. And then we need to call this function here,
+      just the reducer and then before that, we need to prepare that data with a prepare method.
+      And so this method is where we can then accept the data that we want.
+      So basically this can have the parameters that earlier we had in our action creator. */
+    requestLoanCourseExplained: {
+      prepare(amount, purpose) {
+        return {
+          payload: { amount, purpose }, //to receive more than one argument
+        }
+      },
+      reduce(state, action) {
+        if (state.loan > 0) return;
+        state.loan = action.payload.amount;
+        state.loanPurpose = action.payload.purpose;
+        state.balance.amount += Number(action.payload.amount);
+      },
+    },
+    payLoan(state) {
+      state.balance.amount -= Number(state.loan);
+      state.loan = 0;
+      state.loanPurpose = "";
+    },
+    convertingCurrency(state) {
+      state.isLoading = true;
+    },
+  },
+});
+
+console.log(accountSlice);
+
+export const { deposit, withdraw, requestLoan, payLoan } = accountSlice.actions;
+
+export default accountSlice.reducer;
+
+// V-1
 /** Back in the day, React developers also used to place these strings here into separate variables into a separate file.
  * this avoid typo issues and concentrate constants in a single place to manage all actions.
  * this is not in use anymore nowadays
  */
-const bankActions = {
+/*const bankActions = {
   DEPOSIT: "account/deposit",
   WITHDRAW: "account/withdraw",
   REQUEST_LOAN: "account/requestLoan",
@@ -138,3 +202,4 @@ export default function accountReducer(state = initialStateAccount, action) {
       return state; //do not throw an error
   }
 }
+*/

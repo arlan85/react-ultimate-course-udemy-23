@@ -54,9 +54,11 @@ function Order() {
   } = order;
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
 
+  console.log(cart);
   return (
     <div>
       <div>
+        <h2>Order {id}</h2>
         <h2>Status</h2>
 
         <div>
@@ -78,6 +80,7 @@ function Order() {
         <p>Price pizza: {formatCurrency(orderPrice)}</p>
         {priority && <p>Price priority: {formatCurrency(priorityPrice)}</p>}
         <p>To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}</p>
+        
       </div>
     </div>
   );

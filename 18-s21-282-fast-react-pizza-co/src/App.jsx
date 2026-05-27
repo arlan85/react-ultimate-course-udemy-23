@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Cart from "./modules/cart/Cart";
-import Menu from "./modules/menu/Menu";
+import Menu , {loader as menuLoader }from "./modules/menu/Menu"; //renamed for  improve readability
 import CreateOrder from "./modules/order/CreateOrder";
 import Order from "./modules/order/Order";
 import AppLayout from "./ui/AppLayout";
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         element: <Home />,
         // children: [], // nested routes go here
       },
-      { path: "/menu", element: <Menu /> },
+      { path: "/menu", element: <Menu />, loader: menuLoader }, //step 2 add the loader to the route
       {
         path: "/cart",
         element: <Cart />,

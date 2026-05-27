@@ -1,10 +1,14 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import CartOverview from "../modules/cart/CartOverview";
 import Header from "./Header";
+import Loader from "./Loader";
 
 function AppLayout({ children }) {
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="layout">
+      {isLoading && <Loader />}
       <Header />
       <main className="flex-grow container mx-auto p-4">
         <Outlet />

@@ -16,7 +16,7 @@ each time that somewhere in the app something is loading.*/
     <div className="layout">
       {isLoading && <Loader />}
       <Header />
-      <main className="flex-grow container mx-auto p-4">
+      <main className="flex-grow container mx-auto ">
         <Outlet />
         {children}
         <CartOverview />

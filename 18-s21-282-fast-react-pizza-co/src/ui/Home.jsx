@@ -2,8 +2,8 @@ import CreateUser from '../modules/user/CreateUser';
 
 function Home() {
   return (
-    <div className="my-10 text-center">
-      <h1 className="mb-4 text-xl font-semibold">
+    <div className="my-10 sm:my-16 text-center">
+      <h1 className="m-4 text-xl font-semibold ">
         The best pizza.
         <br />
         <span className="text-yellow-500">

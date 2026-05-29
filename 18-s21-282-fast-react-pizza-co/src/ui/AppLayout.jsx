@@ -4,8 +4,14 @@ import Header from "./Header";
 import Loader from "./Loader";
 
 function AppLayout({ children }) {
+/* is is a global state for whole app 
+  So, that's the whole reason why we placed this
+loading indicator in the app layout in the first place,
+because this will then render our loader
+each time that somewhere in the app something is loading.*/
   const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
+  const isLoading = navigation.state === "loading"; 
+ 
   return (
     <div className="layout">
       {isLoading && <Loader />}

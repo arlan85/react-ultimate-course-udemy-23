@@ -21,7 +21,7 @@ each time that somewhere in the app something is loading.*/
         {children}
         <CartOverview />
       </main>
-      <footer className="bg-gray-800 text-white p-4 text-center">
+      <footer className="bg-gray-800 text-stone-100 p-4 text-center">
         &copy; 2024 Fast React Pizza Co. All rights reserved.
       </footer>
     </div>

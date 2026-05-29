@@ -1,5 +1,5 @@
-import { redirect } from "react-router-dom";
-import { createOrder } from "../../services/apiRestaurant";
+// import { redirect } from "react-router-dom";
+// import { createOrder } from "../../services/apiRestaurant";
 
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
@@ -23,7 +23,8 @@ export async function action({ request }) {
     priority: data.priority == "on",
   };
 
-  const result = await createOrder(order);
+  return order;
+//   const result = await createOrder(order);
 
-  return redirect(`/order/${result.id}`);
+//   return redirect(`/order/${result.id}`);
 }

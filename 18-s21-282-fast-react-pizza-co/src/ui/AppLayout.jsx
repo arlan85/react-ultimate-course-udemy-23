@@ -1,29 +1,34 @@
-import { Outlet, useNavigation } from "react-router-dom";
-import CartOverview from "../modules/cart/CartOverview";
-import Header from "./Header";
-import Loader from "./Loader";
+import { Outlet, useNavigation } from 'react-router-dom';
+import CartOverview from '../modules/cart/CartOverview';
+import Header from './Header';
+import Loader from './Loader';
 
 function AppLayout({ children }) {
-/* is is a global state for whole app 
+  /* is is a global state for whole app 
   So, that's the whole reason why we placed this
 loading indicator in the app layout in the first place,
 because this will then render our loader
 each time that somewhere in the app something is loading.*/
   const navigation = useNavigation();
-  const isLoading = navigation.state === "loading"; 
- 
+  const isLoading = navigation.state === 'loading';
+
   return (
-    <div className="layout">
+    <div className="grid h-screen grid-rows-[auto_1fr_auto]">
       {isLoading && <Loader />}
       <Header />
-      <main className="flex-grow container mx-auto ">
-        <Outlet />
-        {children}
+      <div className="overflow-scroll">
+        <main className="mx-auto max-w-xl">
+          <Outlet />
+          {children}
+        </main>
+      </div>
+      <div>
         <CartOverview />
-      </main>
-      <footer className="bg-gray-800 text-stone-100 p-4 text-center">
-        &copy; 2024 Fast React Pizza Co. All rights reserved.
-      </footer>
+        <footer className="bg-gray-800 p-4 text-center text-stone-100">
+          &copy; {new Date().getFullYear()} Fast React Pizza Co. All rights
+          reserved.
+        </footer>
+      </div>
     </div>
   );
 }

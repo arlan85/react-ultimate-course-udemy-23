@@ -1,6 +1,6 @@
 function Username() {
   return (
-    <div className="text-sm font-semibold py-2" >
+    <div className="text-sm font-semibold py-2 hidden" >
       Arlan
     </div>
   )

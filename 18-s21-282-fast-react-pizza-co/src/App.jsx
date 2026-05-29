@@ -1,8 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Cart from "./modules/cart/Cart";
-import Menu, { loader as menuLoader } from "./modules/menu/Menu"; //renamed for  improve readability
-import CreateOrder , {action as createOrderAction }from "./modules/order/CreateOrder";
-import Order , {loader as getOrder} from "./modules/order/Order";
+import Menu from "./modules/menu/Menu"; //renamed for  improve readability
+import  { loader as menuLoader } from "./modules/menu/menuLoader"
+import CreateOrder from "./modules/order/CreateOrder";
+import { action as createOrderAction } from "./modules/order/createOrderAction";
+import Order from "./modules/order/Order";
+import { loader as getOrder } from "./modules/order/orderLoader";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
 import Home from "./ui/Home";

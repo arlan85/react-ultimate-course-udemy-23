@@ -60,3 +60,6 @@ export const getCartTotals = (state) =>
   );
 
 export const getCart = (state) => state.cart.cart;
+
+export const getCurrentQuantityById = (id) => (state) => // a function that returns another function
+  state.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;

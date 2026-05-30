@@ -3,14 +3,25 @@ import CartItem from '../../modules/cart/CartItem';
 import Button from '../../ui/form/Button';
 import LinkButton from '../../ui/form/LinkButton';
 import { clearCart, getCart } from './cartSlice';
-import EmptyCart from './EmptyCart'
+import EmptyCart from './EmptyCart';
 
+/*  // as example
+const fakeCart =[
+  {
+    pizzaId: 12,
+    name: 'Mediterranean',
+    quantity: 2,
+    ç: 16,
+    totalPrice: 32,
+  },
+] */
 function Cart() {
   const username = useSelector((state) => state.user.username);
 
   const cart = useSelector(getCart);
   const dispatch = useDispatch();
-if(!cart.length) return <EmptyCart/>
+
+  if (!cart.length) return <EmptyCart />;
   return (
     <div className="px-4 py-3">
       <LinkButton to="/menu">&larr; Back to menu</LinkButton>

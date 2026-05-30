@@ -17,7 +17,7 @@ each time that somewhere in the app something is loading.*/
       {isLoading && <Loader />}
       <Header />
       <div className="overflow-scroll">
-        <main className="mx-auto max-w-xl">
+        <main className="mx-auto max-w-3xl">
           <Outlet />
           {children}
         </main>

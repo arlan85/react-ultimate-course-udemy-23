@@ -1,15 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
-  // cart: [], // we do not require extra data because other can be derived from the cotnent here
-  cart: [
-    {
-      pizzaId: 12,
-      name: 'Mediterranean',
-      quantity: 2,
-      unitPrice: 16,
-      totalPrice: 32,
-    },
-  ],
+  cart: [], // we do not require extra data because other can be derived from the cotnent here
 };
 
 const cartSlice = createSlice({
@@ -30,7 +21,7 @@ const cartSlice = createSlice({
       }
     },
     deleteItem(state, action) {
-      state.cart = state.filter((item) => item.pizzaId !== action.payload);
+      state.cart = state.cart.filter((item) => item.pizzaId !== action.payload);
     },
     increaseItemQuantity(state, action) {
       const item = state.cart.find((item) => item.pizzaId === action.payload);
@@ -56,3 +47,16 @@ export const {
   increaseItemQuantity,
 } = cartSlice.actions; // dispatch action creators
 export default cartSlice.reducer; // the reducer
+
+// reduce functions and  nono mutable actions over the cart can be expressed as extra common functions
+export const getCartTotals = (state) =>
+  state.cart.cart.reduce(
+    (acc, elem) => {
+      acc.totalItems += elem.quantity || 0;
+      acc.totalPrice += elem.totalPrice;
+      return acc;
+    },
+    { totalItems: 0, totalPrice: 0 },
+  );
+
+export const getCart = (state) => state.cart.cart;

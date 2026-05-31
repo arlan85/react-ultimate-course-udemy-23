@@ -28,7 +28,10 @@ export async function action({ request }) {
     priority: data.priority == 'true',
   };
 
+  // console.log(data)
+
   const result = await createOrder(order);
+
 
   store.dispatch(clearCart()); // DO NOT  overuse
 

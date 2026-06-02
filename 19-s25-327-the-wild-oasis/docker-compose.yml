@@ -1,0 +1,76 @@
+services:
+  db:
+    image: public.ecr.aws/supabase/postgres:17.6.1.106
+    pull_policy: if_not_present
+    container_name: wild_oasis_db
+    restart: unless-stopped
+    ports:
+      - "55422:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - wild_oasis_db_data:/var/lib/postgresql/data
+
+  meta:
+    image: public.ecr.aws/supabase/postgres-meta:v0.96.4
+    pull_policy: if_not_present
+    container_name: wild_oasis_meta
+    restart: unless-stopped
+    ports:
+      - "55426:8080"
+    environment:
+      PG_META_PORT: 8080
+      PG_META_DB_HOST: db
+      PG_META_DB_PORT: 5432
+      PG_META_DB_NAME: postgres
+      PG_META_DB_USER: postgres
+      PG_META_DB_PASSWORD: postgres
+    depends_on:
+      - db
+
+  rest:
+    image: public.ecr.aws/supabase/postgrest:v12.2.8
+    pull_policy: if_not_present
+    container_name: wild_oasis_rest
+    restart: unless-stopped
+    environment:
+      PGRST_DB_URI: postgres://postgres:postgres@db:5432/postgres
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: 919f9ccee2951600d8bcfefc92dba9636666d1ad20f763d0bd10e906f6124b0c
+      PGRST_DB_USE_LEGACY_GUCS: "false"
+    depends_on:
+      - db
+
+  api:
+    image: nginx:alpine
+    pull_policy: if_not_present
+    container_name: wild_oasis_api
+    restart: unless-stopped
+    ports:
+      - "55421:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - rest
+
+  studio:
+    image: public.ecr.aws/supabase/studio:2026.04.28-sha-89d08a2
+    pull_policy: if_not_present
+    container_name: wild_oasis_studio
+    restart: unless-stopped
+    ports:
+      - "55423:3000"
+    environment:
+      STUDIO_PG_META_URL: http://meta:8080
+      POSTGRES_PASSWORD: postgres
+      DEFAULT_ORGANIZATION_NAME: Wild Oasis
+      DEFAULT_PROJECT_NAME: Wild Oasis
+      SUPABASE_URL: http://localhost:55421
+      SUPABASE_PUBLIC_URL: http://localhost:55421
+    depends_on:
+      - meta
+
+volumes:
+  wild_oasis_db_data:

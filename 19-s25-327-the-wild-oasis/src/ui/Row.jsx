@@ -10,15 +10,11 @@ const Row = styled.div`
     `}
 
   ${(props) =>
-    props.type === "vertical" &&
+    (props.type || "vertical") === "vertical" &&
     css`
       flex-direction: column;
       gap: 1.6rem;
     `}
 `;
-
-Row.defaultProps = { // you can define defaul props for the React components 
-  type: "vertical",
-};
 
 export default Row;

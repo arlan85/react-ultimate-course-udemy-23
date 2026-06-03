@@ -34,11 +34,11 @@ function CabinTable() {
     data: cabins,
     error,
   } = useQuery({
-    queryKey: ["cabin"], //needs to be an array to identify each data to be reado from the cache
+    queryKey: ["cabins"], //needs to be an array to identify each data to be reado from the cache
     queryFn: getCabins, //this will query the data from the API, needs to return a promise fetch() for example. This will return the data when the promise gets resolved
   });
 
-  console.log(error);
+  if (error) console.error("error", error);
 
   if (isPending) return <Spinner />;
 

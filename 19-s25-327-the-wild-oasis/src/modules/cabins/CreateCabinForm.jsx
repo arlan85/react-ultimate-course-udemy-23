@@ -13,7 +13,6 @@ import Textarea from "../../ui/Textarea";
 function CreateCabinForm() {
   const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
-  console.log(errors);
   const queryClient = useQueryClient();
 
   const { mutate, isPending: isCreating } = useMutation({
@@ -30,7 +29,7 @@ function CreateCabinForm() {
   });
 
   function hangleCreatCabin(data) {
-    mutate(data);
+    mutate({...data, image: data.image[0]});
   }
 
   // to know that exsists but errors are hadled by the const { errors } = formState; from useForm hook
@@ -106,7 +105,14 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label="Cabin photo" error={errors?.image?.message}>
-        <FileInput id="image" accept="image/*" />
+        <FileInput
+          id="image"
+          accept="image/*"
+          type="file"
+          {...register("image", {
+            required: "this field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>

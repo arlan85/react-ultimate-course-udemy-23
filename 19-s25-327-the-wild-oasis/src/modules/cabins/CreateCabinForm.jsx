@@ -9,7 +9,7 @@ import Textarea from "../../ui/Textarea";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { createCabin, isCreating } = useCreateCabin();
   const { editCabin, isEditing } = useEditCabin();
 
@@ -34,9 +34,23 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     if (isEditSession)
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
-        { onSuccess: () => reset() },
+        {
+          onSuccess: (data) => {
+            reset();
+            onCloseModal?.();
+          },
+        },
       );
-    else createCabin({ ...data, image }, { onSuccess: () => reset() }); // to reset the form after creating a new cabin after success action
+    else
+      createCabin(
+        { ...data, image },
+        {
+          onSuccess: () => {
+            reset();
+            onCloseModal?.();
+          },
+        },
+      ); // to reset the form after creating a new cabin after success action
   }
 
   // to know that exsists but errors are hadled by the const { errors } = formState; from useForm hook
@@ -45,7 +59,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(handleCreateCabin, onError)}>
+    <Form
+      onSubmit={handleSubmit(handleCreateCabin, onError)}
+      type={onCloseModal ? "modal" : "default"}
+    >
       <FormRow label=" Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -134,7 +151,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       <FormRow>
         {/* type is an HTML attribute! */}
         {!isEditSession && (
-          <Button variation="secondary" type="reset">
+          <Button
+            variation="secondary"
+            type="reset"
+            onClick={() => onCloseModal?.()}
+          >
             Cancel
           </Button>
         )}

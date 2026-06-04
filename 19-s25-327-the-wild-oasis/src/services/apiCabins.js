@@ -13,7 +13,7 @@ export async function createEditCabin(newCabin, id) {
   const supabaseBaseUrl = supabaseUrl || "http://127.0.0.1:54341";
   const hasImagePath = newCabin.image?.startsWith?.(supabaseBaseUrl); //we already have the image in supabase do not require to de upload.
 
-  console.log("newCabin", newCabin);
+  // console.log("newCabin", newCabin);
   const imageName = hasImagePath
     ? ""
     : `${new Date().getTime()}-${newCabin.image.name}`.replaceAll("/", "");
@@ -26,7 +26,7 @@ export async function createEditCabin(newCabin, id) {
 
   if (!id) {
     const insertPayload = { ...newCabin, image: imagePath };
-    console.log("INSERT PAYLOAD", JSON.stringify(insertPayload, null, 2));
+    // console.log("INSERT PAYLOAD", JSON.stringify(insertPayload, null, 2));
     query = query.insert([insertPayload]); // this works because names matches with table cols
   }
   if (id) {

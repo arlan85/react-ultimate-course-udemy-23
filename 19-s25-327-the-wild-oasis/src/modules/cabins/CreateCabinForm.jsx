@@ -150,15 +150,13 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        {!isEditSession && (
-          <Button
-            variation="secondary"
-            type="reset"
-            onClick={() => onCloseModal?.()}
-          >
-            Cancel
-          </Button>
-        )}
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
+          Cancel
+        </Button>
         <Button disabled={inProgress}>
           {isEditSession ? "Edit" : "Create new"} cabin
         </Button>

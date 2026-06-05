@@ -1,3 +1,4 @@
+import { cloneElement, createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
@@ -50,19 +51,48 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+// 1- Create a context to share the state of the modal (open/close) and the function to toggle it
+const ModalContext = createContext();
 
-function Modal({ children, onClose }) {
+// 2- create the parent component that will provide the context value and handle the state of the modal
+function Modal({ children }) {
+  const [openName, setOpenName] = useState("");
+  const close = () => setOpenName("");
+  const open = setOpenName;
+
+  //return the context and the children of the Modal component, so we can use the Open and Window components inside the Modal component and they will have access to the context value
+  return (
+    <ModalContext.Provider value={{ openName, open, close }}>
+      {children}
+    </ModalContext.Provider>
+  );
+}
+
+// 3- create the child components that will consume the context value and use it to open/close the modal
+function Open({ children, opens: opensWindowName }) {
+  const { open } = useContext(ModalContext);
+  return cloneElement(children, { onClick: () => open(opensWindowName) });
+}
+
+function Window({ children, name }) {
+  const { openName, close } = useContext(ModalContext);
+  if (name !== openName) return null; // if the name of the window is not the same as the openName in the context, we don't render the window
+
   return createPortal(
     <Overlay>
       <StyledModal>
-        <Button onClick={onClose}>
+        <Button onClick={close}>
           <HiXMark />
         </Button>
-        <div>{children} </div>
+        <div>{cloneElement(children, { onCloseModal: close })} </div>
       </StyledModal>
     </Overlay>,
-    document.body // document.getElementById("modal-root")  document.querySelector("#modal-root")
+    document.body, // document.getElementById("modal-root")  document.querySelector("#modal-root")
   );
 }
+
+// 4 - add child components as properties of the parent component to create a nice API for the users of the Modal component
+Modal.Open = Open;
+Modal.Window = Window;
 
 export default Modal;

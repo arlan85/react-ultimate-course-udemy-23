@@ -1,10 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
-import { getCabins } from "../../services/apiCabins";
 import Spinner from "../../ui/Spinner";
+import Table from "../../ui/Table";
 import CabinRow from "./CabinRow";
 import { useCabins } from "./useCabins";
-import Table from "../../ui/Table";
 
 const TableHeader = styled.header`
   display: grid;
@@ -38,9 +36,10 @@ function CabinTable() {
         <div>Discount</div>
         <div></div>
       </Table.Header>
-      {cabins?.map((cabin) => (
-        <CabinRow key={cabin.id} cabin={cabin} />
-      ))}
+      <Table.Body
+        data={cabins}
+        render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
+      />
     </Table>
   );
 }

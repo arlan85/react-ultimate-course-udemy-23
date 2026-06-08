@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import Empty from "../../ui/Empty";
 import Menus from "../../ui/Menus";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
@@ -9,23 +10,33 @@ function CabinTable() {
   const { cabins, isPending, error } = useCabins();
   const [searchParams] = useSearchParams();
   const filterValue = searchParams.get("discount") || "all";
-  console.log("filterValue", filterValue);
 
   if (error) console.error("error", error);
 
   if (isPending) return <Spinner />;
+  if (!cabins.length) return <Empty resourceName="Cabins" />;
+
+  // Filtering
 
   let filteredCabins;
   switch (filterValue) {
     case "no-discount":
       filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
       break;
-    case "discount":
+    case "with-discount":
       filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
       break;
     default:
       filteredCabins = cabins;
   }
+
+  // Sorting
+  const sortBy = searchParams.get("sortBy") || "startDate-asc";
+  const [field, direction] = sortBy.split("-");
+  const modifier = direction === "asc" ? 1 : -1;
+  filteredCabins = filteredCabins.sort(
+    (a, b) => (a[field] - b[field]) * modifier,
+  );
 
   return (
     <Menus>

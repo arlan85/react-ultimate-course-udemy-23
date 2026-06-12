@@ -10,7 +10,7 @@ function BookingTable() {
 
   if (isLoading) return <Spinner />;
 
-  if (!bookings.length) return <Empty resourceName="Bookigs" />;
+  if (!bookings?.length) return <Empty resourceName="Bookigs" />;
 
   return (
     <Menus>

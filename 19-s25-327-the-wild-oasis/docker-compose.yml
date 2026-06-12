@@ -5,7 +5,7 @@ services:
     container_name: wild_oasis_db
     restart: unless-stopped
     ports:
-      - "55422:5432"
+      - "54332:5432"
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres

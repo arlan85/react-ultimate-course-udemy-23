@@ -4,19 +4,27 @@ import { getBookings } from "../../services/apiBookings";
 
 export function useBookings() {
   const [seachParams] = useSearchParams();
-  const queries = seachParams.entries();
-  let filters = { sortBy: "startDate-desc" };
-  for (const [key, value] of queries) {
-    //an array of arrays
-    filters[key] = value;
+  const filters = {};
+  let sortingRaw = seachParams.get("sortBy") || "startDate-desc";
+  const [field, order] = sortingRaw.split("-");
+  const sorting = { [field]: order };
+
+  let page = seachParams.get("page") ? Number(seachParams.get("page")) : 1;
+
+  const allKeys = seachParams.entries();
+  for (const [key, value] of allKeys) {
+    if (key !== "page" && key !== "sortBy" && value) {
+      filters[key] = value;
+    }
   }
+
   const {
-    data: bookings,
+    data: { data: bookings, count } = {}, // needed because mpety at frist
     error,
     isPending: isLoading,
   } = useQuery({
-    queryKey: ["bookings", filters],
-    queryFn: () => getBookings(filters),
+    queryKey: ["bookings", filters, sorting, page],
+    queryFn: () => getBookings({ filters, sorting, page }),
   });
-  return { bookings, error, isLoading };
+  return { bookings, error, isLoading, count };
 }

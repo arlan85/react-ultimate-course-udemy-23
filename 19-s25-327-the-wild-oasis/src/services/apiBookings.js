@@ -1,33 +1,44 @@
+import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
-export async function getBookings(filters = {}) {
+export async function getBookings({ filters = {}, sorting = {}, page }) {
   const query = supabase
     .from("bookings")
     .select(
       "id, created_at, startDate,endDate,numNights,numGuests,status,totalPrice, cabins(id, name), guests(id,fullName, email)",
+      { count: "exact" },
     );
-  if (Object.keys(filters).length !== 0) {
-    for (const [field, value] of Object.entries(filters)) {
-      if (field === "sortBy" && value) {
-        const [property, order] = value.split("-");
-        console.log(field, property, order);
-        query.order(property, { ascending: order === "asc" });
-      } else if (value && value !== "all") {
-        console.log(field, value);
-        query.eq(field, value);
-      }
+
+  for (const [field, value] of Object.entries(filters)) {
+    if (value && value !== "all") {
+      // console.log("filters", field, value);
+      query.eq(field, value);
     }
   }
 
-  const { data, error } = await query;
+  for (const [field, order] of Object.entries(sorting)) {
+    if (order) {
+      // console.log("sorting", field, order);
+      query.order(field, { ascending: order === "asc" });
+    }
+  }
+
+  if (page > 0) {
+    const from = PAGE_SIZE * (page - 1); //starts at 0 so 0-9 for 10 elems
+    const to = from + PAGE_SIZE - 1;
+    // console.log("range", from, to);
+    query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings ncould not be loaded");
+    throw new Error("Bookings could not be loaded");
   }
 
-  return data;
+  return { data, count };
 }
 
 export async function getBooking(id) {

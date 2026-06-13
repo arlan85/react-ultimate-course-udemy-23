@@ -20,13 +20,22 @@ const StyledConfirmDelete = styled.div`
   }
 `;
 
-function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
+function ConfirmDelete({
+  resourceName,
+  onConfirm,
+  disabled,
+  onCloseModal,
+  action = "delete",
+}) {
+  const capitalizedAction = `${action.charAt(0).toUpperCase()}${action.slice(1)}`;
   return (
     <StyledConfirmDelete>
-      <Heading as="h3">Delete {resourceName}</Heading>
+      <Heading as="h3">
+        {capitalizedAction} {resourceName}
+      </Heading>
       <p>
-        Are you sure you want to delete this {resourceName} permanently? This
-        action cannot be undone.
+        Are you sure you want to {action} this {resourceName}? This action
+        cannot be undone.
       </p>
 
       <div>
@@ -35,10 +44,10 @@ function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
           disabled={disabled}
           onClick={onCloseModal}
         >
-          Cancel
+          Close
         </Button>
         <Button variation="danger" disabled={disabled} onClick={onConfirm}>
-          Delete
+          {`Confirm ${capitalizedAction}`}
         </Button>
       </div>
     </StyledConfirmDelete>

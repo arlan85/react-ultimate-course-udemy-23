@@ -1,10 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { login as loginApi } from "../../services/apiAuth";
+
 export function useLogin() {
   const navigate = useNavigate();
-
+  const queryClient = useQueryClient();
   const {
     mutate: login,
     error,
@@ -12,6 +13,7 @@ export function useLogin() {
   } = useMutation({
     mutationFn: (credentials) => loginApi(credentials),
     onSuccess: (user) => {
+      queryClient.setQueryData(["user"], user); // to save auto the user on the cach and have it ther for subsequent request untill needed
       toast.success("Successfully signed in, redirecting...");
       navigate("/dashboard");
     },

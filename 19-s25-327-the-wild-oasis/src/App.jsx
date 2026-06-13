@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Account from "./pages/Account";
+import Booking from "./pages/Booking";
 import Bookings from "./pages/Bookings";
 import Cabins from "./pages/Cabins";
 import Dashboard from "./pages/Dashboard";
@@ -34,6 +35,7 @@ function App() {
             <Route index element={<Navigate replace to={"dashboard"} />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="bookings" element={<Bookings />} />
+            <Route path="bookings/:bookingId" element={<Booking />} />
             <Route path="cabins" element={<Cabins />} />
             <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
@@ -44,7 +46,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-      <Toaster 
+      <Toaster
         position="top-center"
         gutter={12}
         containerStyle={{ margin: "8px" }}
@@ -52,7 +54,7 @@ function App() {
           success: {
             duration: 3000,
           },
-          error: { duration: 5000, },
+          error: { duration: 5000 },
           style: {
             fontSize: "16px",
             maxWidth: "500px",

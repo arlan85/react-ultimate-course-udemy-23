@@ -20,7 +20,6 @@ function ProtectedRoute({ children }) {
   //2- if not an auth user, redirect to login
   useEffect(
     function () {
-      console.log("auth", isAuthenticated, isLoading);
       if (!isAuthenticated && !isLoading) navigate("/login");
     },
     [isAuthenticated, isLoading, navigate],

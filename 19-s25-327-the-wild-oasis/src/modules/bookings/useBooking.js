@@ -10,7 +10,7 @@ export function useBooking() {
     isPending: isLoading,
     error,
   } = useQuery({
-    queryKey: [`booking-${bookingId}`],
+    queryKey: ["booking", bookingId],
     queryFn: () => getBooking(bookingId),
     retry: false, // not finding t hedata meas it does not exists so do not retry
   });

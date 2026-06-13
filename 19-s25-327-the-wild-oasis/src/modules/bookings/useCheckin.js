@@ -6,6 +6,7 @@ import { updateBooking } from "../../services/apiBookings";
 export function useCheckin() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  
   const { mutate: checkin, isPending: isCheckinIn } = useMutation({
     mutationFn: (
       { bookingId, breakfast }, //needs the booking id here to manage the mutation

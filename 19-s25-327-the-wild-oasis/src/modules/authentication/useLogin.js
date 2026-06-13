@@ -14,8 +14,10 @@ export function useLogin() {
     mutationFn: (credentials) => loginApi(credentials),
     onSuccess: (user) => {
       queryClient.setQueryData(["user"], user); // to save auto the user on the cach and have it ther for subsequent request untill needed
-      toast.success("Successfully signed in, redirecting...");
-      navigate("/dashboard");
+      toast.success("Successfully signed in, redirecting...", {
+        duration: 400,
+      });
+      navigate("/dashboard", { replace: true });
     },
     onError: (
       error, //comes from the mutatiion action, so if something happens from the aut service we can see

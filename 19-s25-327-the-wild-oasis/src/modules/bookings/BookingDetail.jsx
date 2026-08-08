@@ -14,8 +14,8 @@ import {
 } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useMoveBack } from "../../hooks/useMoveBack";
-import PageNotFound from "../../pages/PageNotFound";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Empty from "../../ui/Empty";
 import Modal from "../../ui/Modal";
 import Spinner from "../../ui/Spinner";
 import { STATUS_TAG_NAMES } from "../../utils/constants";
@@ -38,7 +38,7 @@ function BookingDetail() {
   const { cancelBooking, isCancelling } = useCancel();
 
   if (isLoading) return <Spinner />;
-  if (error || !booking) return <PageNotFound />;
+  if (error || !booking) return <Empty resourceName="booking" />;
 
   const { status, id: bookingId } = booking;
 

@@ -100,6 +100,7 @@ function Toggle({ id }) {
     useContext(MenusContext);
 
   function handleClick(e) {
+    e.stopPropagation();
     //DOM reversing finding the nearest button
     const rect = e.target.closest("button").getBoundingClientRect();
     setPosition({
@@ -119,7 +120,7 @@ function Toggle({ id }) {
 function List({ id, children }) {
   const { openId, position, close } = useContext(MenusContext);
 
-  const ref = useOutsideClick(close);
+  const ref = useOutsideClick(close, false);
 
   if (openId !== id) return null;
   //this will float on top of the ui that's why is recommended to use a portal

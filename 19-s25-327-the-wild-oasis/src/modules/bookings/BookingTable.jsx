@@ -9,9 +9,9 @@ import { useBookings } from "./useBookings";
 function BookingTable() {
   const { bookings, isLoading, count } = useBookings(); //created react query fn
 
-  if (isLoading) return <Spinner />;
-
+  
   if (!bookings?.length) return <Empty resourceName="Bookigs" />;
+  if (isLoading) return <Spinner />;
 
   return (
     <Menus>

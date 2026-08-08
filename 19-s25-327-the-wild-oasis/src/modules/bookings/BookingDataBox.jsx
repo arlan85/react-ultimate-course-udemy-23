@@ -8,7 +8,7 @@ import {
 import styled from "styled-components";
 
 import DataItem from "../../ui/DataItem";
-import { Flag } from "../../ui/Flag";
+import Flag from "../../ui/Flag";
 
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 
@@ -182,7 +182,9 @@ function BookingDataBox({ booking }) {
       <Footer>
         <p>Booked on {format(new Date(created_at), "EEE, MMM dd yyyy, p")}</p>
         {cancelDate && (
-          <strong>Cancelled at {format(new Date(cancelDate), "EEE, MMM dd yyyy, p")}</strong>
+          <strong>
+            Cancelled at {format(new Date(cancelDate), "EEE, MMM dd yyyy, p")}
+          </strong>
         )}
       </Footer>
     </StyledBookingDataBox>

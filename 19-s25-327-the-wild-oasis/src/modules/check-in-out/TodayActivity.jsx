@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
+import { useTodayActivity } from "./useTodayActivity";
+import TodayItem from "./TodayItem";
 
 const StyledToday = styled.div`
   /* Box */
@@ -37,11 +39,26 @@ const NoActivity = styled.p`
 `;
 
 function Today() {
+  const { todayActivities, isLoading } = useTodayActivity();
+
   return (
     <StyledToday>
       <Row type="horizontal">
         <Heading as="h2">Today</Heading>
       </Row>
+      {!isLoading ? (
+        todayActivities?.length > 0 ? ( //this can be moved to a new component, but for now it's fine here
+          <TodayList>
+            {todayActivities.map((activity) => (
+              <TodayItem key={activity.id} activity={activity} />
+            ))}
+          </TodayList>
+        ) : (
+          <NoActivity>No activity today</NoActivity>
+        )
+      ) : (
+        <NoActivity>Loading...</NoActivity>
+      )}
     </StyledToday>
   );
 }

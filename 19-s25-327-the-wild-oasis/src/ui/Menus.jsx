@@ -96,8 +96,7 @@ function Menus({ children }) {
 }
 
 function Toggle({ id }) {
-  const { openId, open, close, position, setPosition } =
-    useContext(MenusContext);
+  const { openId, open, close, setPosition } = useContext(MenusContext);
 
   function handleClick(e) {
     e.stopPropagation();
@@ -117,6 +116,7 @@ function Toggle({ id }) {
     </StyledToggle>
   );
 }
+
 function List({ id, children }) {
   const { openId, position, close } = useContext(MenusContext);
 

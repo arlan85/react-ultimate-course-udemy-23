@@ -42,7 +42,6 @@ function CheckinBooking() {
     guests,
     totalPrice,
     numGuests,
-    hasBreakfast,
     numNights,
   } = booking;
 
@@ -65,7 +64,7 @@ function CheckinBooking() {
   return (
     <>
       <Row type="horizontal">
-        <Heading as="h1">Check in booking #{bookingId}</Heading>
+        <Heading as="h1">Check in booking #{bookingId} ({numNights} nights)</Heading>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
 

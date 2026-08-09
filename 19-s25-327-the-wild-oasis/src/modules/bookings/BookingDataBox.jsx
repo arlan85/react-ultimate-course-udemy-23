@@ -116,7 +116,6 @@ function BookingDataBox({ booking }) {
     observations,
     cancelDate,
     isPaid,
-    status,
     guests: { fullName: guestName, email, country, countryFlag, nationalID },
     cabins: { name: cabinName },
   } = booking;

@@ -26,7 +26,7 @@ function UpdateSettingsForm() {
   if (error) console.error("error", error);
 
   return (
-    <Form>
+    <Form disabled={isLoading || isUpdating}>
       <FormRow label="Minimum nights/booking">
         <Input
           type="number"
@@ -53,7 +53,9 @@ function UpdateSettingsForm() {
           id="max-guests"
           defaultValue={maxGuestsPerBooking}
           disabled={isUpdating}
-          onBlur={(e) => handleUpdate(e, "maxGuestsPerBooking", maxGuestsPerBooking)}
+          onBlur={(e) =>
+            handleUpdate(e, "maxGuestsPerBooking", maxGuestsPerBooking)
+          }
         />
       </FormRow>
 

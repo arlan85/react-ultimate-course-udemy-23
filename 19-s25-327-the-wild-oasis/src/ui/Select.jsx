@@ -14,11 +14,11 @@ const StyledSelect = styled.select`
   box-shadow: var(--shadow-sm);
 `;
 
-function Select({ options, value, handleChange, ...props }) {
+function Select({ options, value, onChange, ...props }) {
   return (
-    <StyledSelect value={value} {...props}>
+    <StyledSelect value={value} {...props} onChange={onChange}>
       {options.map((option) => (
-        <option key={option.value} value={option.value} onChange={onchange}>
+        <option key={option.value} value={option.value} >
           {option.label}
         </option>
       ))}

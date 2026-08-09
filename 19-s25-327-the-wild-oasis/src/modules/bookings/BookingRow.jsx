@@ -87,10 +87,9 @@ function BookingRow({
             {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
             {format(new Date(endDate), "MMM dd yyyy")}
           </span>
+          <span>({numGuests} guests)</span>
+          <span>Booked on {format(new Date(created_at), "MMM dd yyyy")}</span>
         </Stacked>
-        {/* <Stacked>
-        {numGuests}
-        </Stacked> */}
 
         <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 

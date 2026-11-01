@@ -1,5 +1,6 @@
 import { eachDayOfInterval } from "date-fns";
 import { countries } from "./data-static";
+import { supabase } from './supabase';
 
 /////////////
 // GET

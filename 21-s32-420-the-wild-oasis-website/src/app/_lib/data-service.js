@@ -1,4 +1,5 @@
 import { eachDayOfInterval } from "date-fns";
+import { countries } from "./data-static";
 
 /////////////
 // GET
@@ -139,19 +140,21 @@ const apiKey = process.env.NINJA_KEY || "";
 export async function getCountries() {
   try {
     if (!apiKey) return [];
-    const res = await fetch(
-      "https://api.api-ninjas.com/v1/country?limit=30&currency=EUR",
-      {
-        headers: { "X-Api-Key": `${apiKey}` },
-      },
-    );
-    if (!res.ok) return [];
-    const countries = await res.json();
-    const mapped = countries.map((country) => ({
-      name: country.name,
-      flag: country.flag_square_url,
-    }));
-    return mapped;
+    // const res = await fetch(
+    //   "https://api.api-ninjas.com/v1/country?limit=30&currency=EUR",
+    //   {
+    //     headers: { "X-Api-Key": `${apiKey}` },
+    //   },
+    // );
+    // if (!res.ok) return [];
+    // const countries = await res.json();
+    // const mapped = countries.map((country) => ({
+    //   name: country.name,
+    //   flag: country.flag_square_url,
+    // }));
+    const sorted = countries.sort((a, b) => a.name.localeCompare(b.name));
+    // console.log(sorted)
+    return sorted;
   } catch {
     throw new Error("Could not fetch countries");
   }

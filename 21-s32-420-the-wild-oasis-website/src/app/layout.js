@@ -26,10 +26,10 @@ export default function RootLayout({ children }) {
         className={`${josefinSans.className} relative bg-primary-950 text-primary-100 min-h-screen flex flex-col`}
       >
         <Header />
-        <div className="flex-1">
-          <main className="max-w-7xl mx-auto px-8 py-12">{children}</main>
+        <div className="flex-1 px-8 py-12 grid">
+          <main className="max-w-7xl mx-auto w-full">{children}</main>
         </div>
-        <footer className="p-12 text-center z-20">
+        <footer className="p-12 text-center z-20 w-full">
           {new Date().getFullYear()} Copyright by The Wild Oasis Inc.
         </footer>
       </body>

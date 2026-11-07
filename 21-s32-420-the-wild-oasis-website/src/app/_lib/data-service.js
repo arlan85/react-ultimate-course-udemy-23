@@ -1,4 +1,5 @@
 import { eachDayOfInterval } from "date-fns";
+import { notFound } from "next/navigation";
 import { countries } from "./data-static";
 import { supabase } from "./supabase";
 
@@ -19,7 +20,7 @@ export async function getCabin(id) {
     console.error(error);
     let message = error.details;
     if (error.details && error.details.includes("0 rows")) {
-      message = `The cabin with id ${id} is not available.`;
+      return notFound();
     }
     throw new Error(message);
   }

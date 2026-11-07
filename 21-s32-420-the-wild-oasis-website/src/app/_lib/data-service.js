@@ -17,6 +17,11 @@ export async function getCabin(id) {
 
   if (error) {
     console.error(error);
+    let message = error.details;
+    if (error.details && error.details.includes("0 rows")) {
+      message = `The cabin with id ${id} is not available.`;
+    }
+    throw new Error(message);
   }
 
   return data;
@@ -31,6 +36,11 @@ export async function getCabinPrice(id) {
 
   if (error) {
     console.error(error);
+    let message = error.details;
+    if (error.details && error.details.includes("0 rows")) {
+      message = `The cabin with id ${id} is not available.`;
+    }
+    throw new Error(message);
   }
 
   return data;
@@ -61,6 +71,15 @@ export async function getGuest(email) {
     .single();
 
   // No error here! We handle the possibility of no guest in the sign in callback
+  if (error) {
+    console.error(error);
+    let message = error.details;
+    // if (error.details && error.details.includes("0 rows")) {
+    //   message = `The cabin with id ${id} is not available.`;
+    // }
+    throw new Error(message);
+  }
+
   return data;
 }
 

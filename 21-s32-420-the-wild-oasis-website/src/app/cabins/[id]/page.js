@@ -15,6 +15,15 @@ import Image from "next/image";
 //     "https://dclaevazetcjjkrzczpc.supabase.co/storage/v1/object/public/cabin-images/cabin-001.jpg",
 // };
 
+export async function generateMetadata({ params }) {
+  if (!params.id) return null;
+  const { name, description } = await getCabin(params.id);
+  return {
+    title: `Cabin ${name}`,
+    description,
+  };
+}
+
 // Any page or layout defined unde a dynamic route have access thi the params argument
 export default async function Page({ params }) {
   if (!params.id) return null;

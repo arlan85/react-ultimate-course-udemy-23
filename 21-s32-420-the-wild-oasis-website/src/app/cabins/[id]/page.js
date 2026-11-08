@@ -1,4 +1,4 @@
-import { getCabin } from "@/app/_lib/data-service";
+import { getCabin, getCabins } from "@/app/_lib/data-service";
 import { EyeSlashIcon, MapPinIcon, UsersIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
@@ -22,6 +22,13 @@ export async function generateMetadata({ params }) {
     title: `Cabin ${name}`,
     description,
   };
+}
+
+// 455: And that function is called generateStaticParams. And again, this is all about telling Next.js ahead of time,
+// which params actually exist here for this page.
+export async function generateStaticParams() {
+  const cabins = await getCabins();
+  return cabins.map(({ id }) => ({ id: id.toString() }));
 }
 
 // Any page or layout defined unde a dynamic route have access thi the params argument

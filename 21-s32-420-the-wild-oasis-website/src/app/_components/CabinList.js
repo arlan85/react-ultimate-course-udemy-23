@@ -1,8 +1,11 @@
 import { getCabins } from "@/app/_lib/data-service";
+import { unstable_noStore as noStore } from "next/cache";
 import CabinCard from "./CabinCard";
 
 // Moved the data fetching to its wons component, a NextJs good way to do.
 async function CabinList() {
+  noStore(); //avoid data cache
+
   const cabins = await getCabins();
 
   if (!cabins.length) return null;

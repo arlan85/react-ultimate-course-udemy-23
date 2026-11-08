@@ -51,6 +51,7 @@ export const getCabins = async function () {
   const { data, error } = await supabase
     .from("cabins")
     .select("id, name, maxCapacity, regularPrice, discount, image")
+    .neq("deleted", true)
     .order("name");
 
   // await new Promise((data) => setTimeout(data, 2000));
